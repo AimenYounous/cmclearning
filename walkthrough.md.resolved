@@ -1,0 +1,126 @@
+# CMC-Learning — Walkthrough
+
+## Overview
+
+A production-grade React E-learning platform built with **Vite + React 19 + TypeScript + TailwindCSS v4 + Redux Toolkit**, using a **feature-based architecture**.
+
+## Folder Tree
+
+```
+cmclearning/
+├── index.html
+├── package.json
+├── tsconfig.json / tsconfig.app.json / tsconfig.node.json
+├── vite.config.ts
+└── src/
+    ├── main.tsx                     # Entry point
+    ├── App.tsx                      # Root component (Redux + Router)
+    ├── vite-env.d.ts
+    ├── app/
+    │   ├── Dashboard.tsx            # Main dashboard page
+    │   ├── UnauthorizedPage.tsx     # 403 page
+    │   └── NotFoundPage.tsx         # 404 page
+    ├── components/
+    │   ├── layout/
+    │   │   ├── Navbar.tsx           # Top navigation bar
+    │   │   ├── Sidebar.tsx          # Side navigation (role-based)
+    │   │   ├── MainLayout.tsx       # Shell layout wrapper
+    │   │   └── index.ts
+    │   └── ui/
+    │       ├── Button.tsx           # Variants: primary/secondary/danger/ghost
+    │       ├── Input.tsx            # With label, error, icon support
+    │       ├── Card.tsx             # Glassmorphism card
+    │       ├── LoadingSpinner.tsx
+    │       ├── StarRating.tsx       # Display + interactive modes
+    │       ├── EmptyState.tsx
+    │       └── index.ts
+    ├── features/
+    │   ├── auth/
+    │   │   ├── store/authSlice.ts        # Login/register thunks, JWT persistence
+    │   │   ├── services/authService.ts
+    │   │   ├── hooks/useAuth.ts          # Role helpers (isAdmin, isFormateur...)
+    │   │   ├── pages/LoginPage.tsx
+    │   │   ├── pages/RegisterPage.tsx
+    │   │   └── index.ts
+    │   ├── courses/
+    │   │   ├── store/coursesSlice.ts
+    │   │   ├── services/coursesService.ts
+    │   │   ├── components/CourseCard.tsx
+    │   │   ├── pages/CoursesPage.tsx     # List + filter + pagination
+    │   │   ├── pages/CourseDetailsPage.tsx
+    │   │   └── index.ts
+    │   ├── resources/
+    │   │   ├── store/resourcesSlice.ts
+    │   │   ├── services/resourcesService.ts
+    │   │   ├── pages/ResourcesPage.tsx   # Upload/download + filter
+    │   │   └── index.ts
+    │   ├── ratings/
+    │   │   ├── services/ratingsService.ts
+    │   │   ├── components/CourseRatings.tsx  # Star form + reviews list
+    │   │   └── index.ts
+    │   ├── forum/
+    │   │   ├── store/forumSlice.ts
+    │   │   ├── services/forumService.ts
+    │   │   ├── pages/ForumPage.tsx       # Q&A with voting + tags
+    │   │   └── index.ts
+    │   ├── search/
+    │   │   ├── services/searchService.ts
+    │   │   ├── pages/SearchPage.tsx      # Search + filters
+    │   │   └── index.ts
+    │   ├── admin/
+    │   │   ├── services/adminService.ts
+    │   │   ├── pages/AdminDashboard.tsx  # Stats + activity feed
+    │   │   └── index.ts
+    │   └── profile/
+    │       ├── pages/ProfilePage.tsx     # Avatar + edit form
+    │       └── index.ts
+    ├── hooks/
+    │   ├── useRedux.ts              # Typed useAppDispatch / useAppSelector
+    │   ├── useApi.ts                # Generic API hook
+    │   └── index.ts
+    ├── routes/
+    │   ├── router.tsx               # Full route config
+    │   ├── ProtectedRoute.tsx       # Auth guard
+    │   └── RoleGuard.tsx            # Role-based guard
+    ├── services/
+    │   └── axiosInstance.ts         # JWT interceptor + 401 redirect
+    ├── store/
+    │   └── index.ts                 # Redux store combining all slices
+    ├── styles/
+    │   └── index.css                # TailwindCSS v4 + design tokens + animations
+    ├── types/
+    │   └── index.ts                 # All domain types (User, Course, Resource, etc.)
+    └── utils/
+        ├── helpers.ts               # formatDate, timeAgo, truncate, debounce
+        └── constants.ts             # SPECIALITIES, YEARS, ROLES, etc.
+```
+
+## Key Design Decisions
+
+| Area | Decision |
+|---|---|
+| **Architecture** | Feature-based modules with barrel exports |
+| **State** | Redux Toolkit with per-feature slices, typed hooks |
+| **Auth** | JWT stored in localStorage, Axios interceptor auto-attaches |
+| **Routing** | Nested routes with ProtectedRoute + RoleGuard wrappers |
+| **Styling** | TailwindCSS v4 with `@theme` design tokens, glassmorphism utilities, keyframe animations |
+| **UI** | Reusable components (Button, Input, Card, StarRating, etc.) |
+
+## Build Verification
+
+```
+✓ TypeScript compilation: 0 errors
+✓ Vite build: 159 modules transformed in 3.89s
+  dist/index.html             0.59 kB
+  dist/assets/index.css      39.16 kB (gzip: 7.03 kB)
+  dist/assets/index.js      413.57 kB (gzip: 130.05 kB)
+```
+
+## How to Run
+
+```bash
+cd c:\cmclearning
+npm run dev       # Start dev server on http://localhost:3000
+npm run build     # Production build
+npm run preview   # Preview production build
+```
