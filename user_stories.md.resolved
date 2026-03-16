@@ -1,0 +1,1276 @@
+# CMC-Learning — Agile User Stories (Jira-Ready)
+
+**Project**: CMC-Learning E-Learning Platform
+**Team**: 4 Developers (Dev A, Dev B, Dev C, Dev D)
+**Methodology**: Scrum — 2-week sprints
+**Total Estimated Story Points**: ~170
+
+---
+
+## Developer Assignment Strategy
+
+| Developer | Focus Areas |
+|-----------|-------------|
+| **Dev A** | Authentication, Profile, Security |
+| **Dev B** | Courses Management, Ratings |
+| **Dev C** | Resources, Search & Filtering |
+| **Dev D** | Forum / Q&A, Admin Dashboard |
+
+---
+
+## Epic Overview
+
+| Epic ID | Epic Name | Priority | Total SP |
+|---------|-----------|----------|----------|
+| EP-01 | Authentication & Authorization | High | 26 |
+| EP-02 | Course Management | High | 29 |
+| EP-03 | Resource Management | High | 21 |
+| EP-04 | Ratings System | Medium | 13 |
+| EP-05 | Forum / Q&A | Medium | 26 |
+| EP-06 | Search & Filtering | Medium | 13 |
+| EP-07 | Admin Dashboard | High | 26 |
+| EP-08 | Profile Management | Medium | 10 |
+| EP-09 | Platform Shell & Navigation | High | 8 |
+
+---
+
+## EP-01 — Authentication & Authorization
+
+> **Goal**: Allow users to register, log in, and access features based on their role.
+> **Assigned to**: Dev A
+
+---
+
+### US-01.1 — User Registration
+
+**As a** visitor,
+**I want** to register with my email, name, password, and role,
+**So that** I can access the platform.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] User can select role: Stagiaire or Formateur
+- [ ] Stagiaire can select speciality + year
+- [ ] Email must be unique — display error if taken
+- [ ] Password requires minimum 6 characters
+- [ ] Password confirmation field must match
+- [ ] On success, user is redirected to Dashboard
+- [ ] JWT token is stored in localStorage
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create RegisterPage UI with form fields | Dev A | 2h |
+| Implement form validation (client-side) | Dev A | 1h |
+| Connect to POST `/api/auth/register` | Dev A | 1h |
+| Create `registerUser` async thunk in authSlice | Dev A | 1h |
+| Handle error states and display messages | Dev A | 1h |
+
+---
+
+### US-01.2 — User Login
+
+**As a** registered user,
+**I want** to log in with my email and password,
+**So that** I can access my account.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] User enters email + password
+- [ ] On success, JWT is stored and user is redirected to Dashboard
+- [ ] On failure, a clear error message is displayed
+- [ ] Loading spinner is shown during request
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create LoginPage UI | Dev A | 1.5h |
+| Create `loginUser` async thunk | Dev A | 1h |
+| Store JWT + user in localStorage and Redux | Dev A | 1h |
+| Handle API errors and display feedback | Dev A | 1h |
+| Add redirect to Dashboard on success | Dev A | 0.5h |
+
+---
+
+### US-01.3 — JWT Token Management
+
+**As a** logged-in user,
+**I want** my session to persist across page refreshes,
+**So that** I don't have to log in every time.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 3 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] JWT token is auto-attached to every API request via Axios interceptor
+- [ ] On 401 response, user is redirected to login and token cleared
+- [ ] On app load, user state is restored from localStorage
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Configure Axios interceptor for Authorization header | Dev A | 1h |
+| Implement 401 response interceptor with redirect | Dev A | 1h |
+| Restore auth state from localStorage on app init | Dev A | 1h |
+
+---
+
+### US-01.4 — Protected Routes
+
+**As a** platform admin,
+**I want** unauthenticated users blocked from protected pages,
+**So that** only logged-in users can access the platform.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] ProtectedRoute redirects unauthenticated users to `/login`
+- [ ] RoleGuard blocks users without the required role → `/unauthorized`
+- [ ] Admin routes only accessible by admin role
+- [ ] Formateur routes accessible by formateur + admin
+- [ ] Unauthorized page displays clear message with back link
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [ProtectedRoute](file:///c:/cmclearning/src/routes/ProtectedRoute.tsx#4-21) component | Dev A | 1h |
+| Create [RoleGuard](file:///c:/cmclearning/src/routes/RoleGuard.tsx#9-22) component | Dev A | 1h |
+| Create [UnauthorizedPage](file:///c:/cmclearning/src/app/UnauthorizedPage.tsx#5-21) | Dev A | 0.5h |
+| Configure route nesting in [router.tsx](file:///c:/cmclearning/src/routes/router.tsx) | Dev A | 1.5h |
+| Test all role-based access scenarios | Dev A | 1h |
+
+---
+
+### US-01.5 — Logout
+
+**As a** logged-in user,
+**I want** to log out of my account,
+**So that** I can secure my session.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 2 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] Logout button in Navbar
+- [ ] On click, JWT and user data cleared from localStorage + Redux
+- [ ] User redirected to login page
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add logout action to authSlice | Dev A | 0.5h |
+| Add logout button to Navbar | Dev A | 0.5h |
+| Clear storage and redirect on logout | Dev A | 0.5h |
+
+---
+
+### US-01.6 — Auto-Redirect Authenticated Users
+
+**As a** logged-in user,
+**I want** to be redirected to Dashboard if I visit `/login`,
+**So that** I don't see the login page unnecessarily.
+
+| Field | Value |
+|-------|-------|
+| Priority | Low |
+| Story Points | 2 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] If user is authenticated and visits `/login` or `/register`, redirect to `/dashboard`
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add redirect logic in LoginPage and RegisterPage | Dev A | 1h |
+
+---
+
+### US-01.7 — Password Reset (Future)
+
+**As a** user who forgot my password,
+**I want** to reset it via email,
+**So that** I can regain access.
+
+| Field | Value |
+|-------|-------|
+| Priority | Low |
+| Story Points | 5 |
+| Sprint | Backlog |
+
+---
+
+## EP-02 — Course Management
+
+> **Goal**: Allow formateurs to create/manage courses and stagiaires to browse/view them.
+> **Assigned to**: Dev B
+
+---
+
+### US-02.1 — View Courses List
+
+**As a** stagiaire,
+**I want** to see a list of all available courses,
+**So that** I can find courses relevant to me.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] Courses displayed in responsive grid (1/2/3 columns)
+- [ ] Each card shows: thumbnail, title, description, formateur, rating, speciality
+- [ ] Loading spinner while fetching
+- [ ] Empty state when no courses found
+- [ ] Pagination if > 12 courses
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [CourseCard](file:///c:/cmclearning/src/features/courses/components/CourseCard.tsx#11-56) component | Dev B | 1.5h |
+| Create [CoursesPage](file:///c:/cmclearning/src/features/courses/pages/CoursesPage.tsx#11-133) with grid layout | Dev B | 2h |
+| Create `coursesSlice` with `fetchCourses` thunk | Dev B | 1.5h |
+| Create `coursesService.getAll()` | Dev B | 0.5h |
+| Add pagination component | Dev B | 1h |
+
+---
+
+### US-02.2 — Course Details Page
+
+**As a** stagiaire,
+**I want** to see full details of a course,
+**So that** I can understand its content before studying.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] Hero banner with thumbnail/gradient fallback
+- [ ] Displays: title, description, content, speciality, year, formateur, date, rating
+- [ ] Lists attached resources with download buttons
+- [ ] Shows edit/delete buttons for owner (formateur) and admin only
+- [ ] Back button to courses list
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [CourseDetailsPage](file:///c:/cmclearning/src/features/courses/pages/CourseDetailsPage.tsx#18-146) UI | Dev B | 2h |
+| Create `fetchCourseById` thunk | Dev B | 1h |
+| Display resources section | Dev B | 1h |
+| Conditional edit/delete buttons per role | Dev B | 1h |
+
+---
+
+### US-02.3 — Create Course (Formateur)
+
+**As a** formateur,
+**I want** to create a new course with title, description, content, speciality, and year,
+**So that** my students can access my teaching material.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Only formateurs and admins can access the create form
+- [ ] Form fields: title, description, content (textarea), speciality (dropdown), year, thumbnail (optional)
+- [ ] Validation: title and description required
+- [ ] On success, redirect to new course details
+- [ ] Success toast notification
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create `CreateCoursePage` with form | Dev B | 2h |
+| Implement `coursesService.create()` with FormData | Dev B | 1h |
+| Add route guard for formateur role | Dev B | 0.5h |
+| Add success redirect and toast | Dev B | 0.5h |
+
+---
+
+### US-02.4 — Edit Course
+
+**As a** formateur,
+**I want** to edit my existing course,
+**So that** I can keep it up to date.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 5 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Pre-populated form with current values
+- [ ] Only course owner or admin can access
+- [ ] On save, updated course is displayed
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create `EditCoursePage` (reuse form component) | Dev B | 1.5h |
+| Implement `coursesService.update()` | Dev B | 0.5h |
+| Ownership check before rendering form | Dev B | 0.5h |
+
+---
+
+### US-02.5 — Delete Course
+
+**As a** formateur,
+**I want** to delete a course I created,
+**So that** I can remove outdated content.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Confirmation modal before deletion
+- [ ] Only owner or admin can delete
+- [ ] On success, redirect to courses list
+- [ ] Course removed from Redux store
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create confirmation modal component | Dev B | 1h |
+| Implement `coursesService.delete()` | Dev B | 0.5h |
+| Handle Redux state cleanup | Dev B | 0.5h |
+
+---
+
+### US-02.6 — Filter Courses by Speciality & Year
+
+**As a** stagiaire,
+**I want** to filter courses by speciality and year,
+**So that** I see only relevant courses.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Dropdown filters for speciality and year
+- [ ] Filters trigger re-fetch
+- [ ] Reset button clears filters
+- [ ] Toggleable filter panel
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add filter dropdowns to CoursesPage | Dev B | 1h |
+| Pass filter params to `fetchCourses` | Dev B | 0.5h |
+| Add reset button | Dev B | 0.5h |
+
+---
+
+### US-02.7 — Course Thumbnail Upload
+
+**As a** formateur,
+**I want** to upload a thumbnail image for my course,
+**So that** it looks attractive in the listing.
+
+| Field | Value |
+|-------|-------|
+| Priority | Low |
+| Story Points | 3 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] File picker accepts images only (JPG, PNG, WebP)
+- [ ] Preview shown before submission
+- [ ] Max file size: 5MB
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create image upload component with preview | Dev B | 1.5h |
+| Integrate into create/edit course form | Dev B | 1h |
+
+---
+
+## EP-03 — Resource Management
+
+> **Goal**: Allow formateurs to upload and stagiaires to download learning resources.
+> **Assigned to**: Dev C
+
+---
+
+### US-03.1 — View Resources List
+
+**As a** stagiaire,
+**I want** to see a list of available resources,
+**So that** I can find materials to study.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] Resources displayed in list view with type icon, title, size, date
+- [ ] Pending validation badge for unvalidated resources
+- [ ] Loading and empty states
+- [ ] Download button per resource
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [ResourcesPage](file:///c:/cmclearning/src/features/resources/pages/ResourcesPage.tsx#25-141) UI | Dev C | 2h |
+| Create `resourcesSlice` and `fetchResources` thunk | Dev C | 1h |
+| Create `resourcesService.getAll()` | Dev C | 0.5h |
+| Add type icons mapping (PDF, video, document) | Dev C | 0.5h |
+
+---
+
+### US-03.2 — Upload Resource
+
+**As a** formateur,
+**I want** to upload a PDF, video, or document,
+**So that** students can access it.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Only formateur or admin can upload
+- [ ] File picker with supported formats (PDF, MP4, DOCX, etc.)
+- [ ] Title auto-fills from filename
+- [ ] Upload progress indicator
+- [ ] Resource added to list after upload
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create file upload UI with hidden input | Dev C | 1h |
+| Implement `resourcesService.upload()` with FormData | Dev C | 1h |
+| Add upload progress bar | Dev C | 1.5h |
+| Refresh list after successful upload | Dev C | 0.5h |
+
+---
+
+### US-03.3 — Download Resource
+
+**As a** stagiaire,
+**I want** to download a resource file,
+**So that** I can study offline.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 3 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Click download triggers blob download
+- [ ] File saves with original filename
+- [ ] Loading state on download button
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Implement `resourcesService.download()` with responseType blob | Dev C | 1h |
+| Trigger browser download via object URL | Dev C | 1h |
+
+---
+
+### US-03.4 — Filter Resources by Speciality, Year & Type
+
+**As a** stagiaire,
+**I want** to filter resources by speciality, year, and type,
+**So that** I find exactly what I need.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Three dropdown filters: speciality, year, type
+- [ ] Filters trigger re-fetch with params
+- [ ] Toggleable filter panel
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add filter dropdowns to ResourcesPage | Dev C | 1h |
+| Pass filter params to API call | Dev C | 0.5h |
+| Toggle visibility of filter panel | Dev C | 0.5h |
+
+---
+
+### US-03.5 — Delete Resource
+
+**As a** formateur,
+**I want** to delete a resource I uploaded,
+**So that** I can remove outdated files.
+
+| Field | Value |
+|-------|-------|
+| Priority | Low |
+| Story Points | 2 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] Confirmation before deletion
+- [ ] Only uploader or admin can delete
+- [ ] Resource removed from list
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add delete button (role-gated) | Dev C | 0.5h |
+| Confirmation modal + API call | Dev C | 1h |
+
+---
+
+### US-03.6 — Link Resource to Course
+
+**As a** formateur,
+**I want** to attach resources to a specific course,
+**So that** students can find them in context.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] Course selector dropdown during upload
+- [ ] Resources appear in course details page
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add optional course selector to upload form | Dev C | 1h |
+| Display linked resources in CourseDetailsPage | Dev C | 1h |
+
+---
+
+## EP-04 — Ratings System
+
+> **Goal**: Allow stagiaires to rate courses and display average ratings.
+> **Assigned to**: Dev B
+
+---
+
+### US-04.1 — Rate a Course
+
+**As a** stagiaire,
+**I want** to rate a course from 1 to 5 stars,
+**So that** I can share my feedback.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 5 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Interactive star rating (1-5)
+- [ ] Optional comment field
+- [ ] User can only rate once per course
+- [ ] Submit button disabled until stars selected
+- [ ] Rating added to list immediately
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create interactive [StarRating](file:///c:/cmclearning/src/components/ui/StarRating.tsx#11-39) component | Dev B | 1h |
+| Create [CourseRatings](file:///c:/cmclearning/src/features/ratings/components/CourseRatings.tsx#14-80) component with form | Dev B | 2h |
+| Implement `ratingsService.create()` | Dev B | 0.5h |
+| Check if user already rated (hide form if yes) | Dev B | 0.5h |
+
+---
+
+### US-04.2 — Display Average Rating
+
+**As a** stagiaire,
+**I want** to see the average rating on course cards and details,
+**So that** I can identify high-quality courses.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Star display + numeric average + total count on [CourseCard](file:///c:/cmclearning/src/features/courses/components/CourseCard.tsx#11-56)
+- [ ] Same display on [CourseDetailsPage](file:///c:/cmclearning/src/features/courses/pages/CourseDetailsPage.tsx#18-146)
+- [ ] Updates after new rating submitted
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add StarRating display to CourseCard | Dev B | 0.5h |
+| Add average display to CourseDetailsPage | Dev B | 0.5h |
+| Refresh average after new submission | Dev B | 0.5h |
+
+---
+
+### US-04.3 — View All Reviews
+
+**As a** stagiaire,
+**I want** to read other students' reviews on a course,
+**So that** I can make an informed decision.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] List of reviews with user avatar, name, date, stars, comment
+- [ ] Sorted by most recent
+- [ ] "No reviews" message if empty
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create review list UI in CourseRatings | Dev B | 1h |
+| Implement `ratingsService.getByCourse()` | Dev B | 0.5h |
+
+---
+
+### US-04.4 — Edit/Delete Own Rating
+
+**As a** stagiaire,
+**I want** to edit or delete my rating,
+**So that** I can update my feedback.
+
+| Field | Value |
+|-------|-------|
+| Priority | Low |
+| Story Points | 2 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] Edit and delete buttons visible only on own review
+- [ ] Edit opens inline form with current values
+- [ ] Delete requires confirmation
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add edit/delete buttons (owner only) | Dev B | 0.5h |
+| Implement edit inline mode | Dev B | 1h |
+| Implement delete with confirmation | Dev B | 0.5h |
+
+---
+
+## EP-05 — Forum / Q&A
+
+> **Goal**: Enable collaborative Q&A between students and teachers.
+> **Assigned to**: Dev D
+
+---
+
+### US-05.1 — View Questions List
+
+**As a** user,
+**I want** to see a list of all questions,
+**So that** I can find help or help others.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Questions displayed with title, excerpt, author, date, vote count, answer count, tags
+- [ ] Sorted by most recent
+- [ ] Loading and empty states
+- [ ] Clickable → navigates to question detail
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [ForumPage](file:///c:/cmclearning/src/features/forum/pages/ForumPage.tsx#16-149) with questions list | Dev D | 2h |
+| Create `forumSlice` with `fetchQuestions` thunk | Dev D | 1h |
+| Create `forumService.getAll()` | Dev D | 0.5h |
+| Tags display with styled badges | Dev D | 0.5h |
+
+---
+
+### US-05.2 — Ask a Question
+
+**As a** user,
+**I want** to post a new question with title, body, and tags,
+**So that** I can get help from the community.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Toggle "Ask Question" form
+- [ ] Fields: title (required), body/details (required), tags (comma-separated)
+- [ ] On submit, question appears in list
+- [ ] Form resets and closes after submission
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create new question form UI | Dev D | 1.5h |
+| Implement `forumService.createQuestion()` | Dev D | 0.5h |
+| Refresh question list after submission | Dev D | 0.5h |
+| Form validation (title + body required) | Dev D | 0.5h |
+
+---
+
+### US-05.3 — View Question Detail & Answers
+
+**As a** user,
+**I want** to view a question with its full details and all answers,
+**So that** I can read the discussion.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Full question body displayed
+- [ ] List of answers with author, date, body, vote count
+- [ ] Accepted answer highlighted
+- [ ] "No answers yet" empty state
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create `QuestionDetailPage` | Dev D | 2h |
+| Create `fetchQuestionById` thunk | Dev D | 1h |
+| Display answer list with accepted badge | Dev D | 1h |
+
+---
+
+### US-05.4 — Answer a Question
+
+**As a** user,
+**I want** to submit an answer to a question,
+**So that** I can help the community.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 3 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Textarea for answer body (required)
+- [ ] Submit button with loading state
+- [ ] New answer appears in list immediately
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create answer form at bottom of question detail | Dev D | 1h |
+| Implement `forumService.createAnswer()` | Dev D | 0.5h |
+| Refresh answers after submission | Dev D | 0.5h |
+
+---
+
+### US-05.5 — Vote on Questions and Answers
+
+**As a** user,
+**I want** to upvote or downvote questions and answers,
+**So that** the best content rises to the top.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 5 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] Up/down vote buttons on questions and answers
+- [ ] Vote count updates immediately (optimistic UI)
+- [ ] User can change their vote
+- [ ] Cannot vote on own content
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create vote button component | Dev D | 1h |
+| Implement `forumService.voteQuestion()` | Dev D | 0.5h |
+| Implement `forumService.voteAnswer()` | Dev D | 0.5h |
+| Optimistic UI update on vote | Dev D | 1h |
+
+---
+
+### US-05.6 — Accept Answer (Author Only)
+
+**As a** question author,
+**I want** to mark an answer as accepted,
+**So that** others know the problem is solved.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] "Accept" button visible only to question author
+- [ ] Only one answer can be accepted
+- [ ] Accepted answer gets green checkmark and moves to top
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add accept button (author-gated) | Dev D | 0.5h |
+| Implement `forumService.acceptAnswer()` | Dev D | 0.5h |
+| Visual styling for accepted answer | Dev D | 0.5h |
+
+---
+
+## EP-06 — Search & Filtering
+
+> **Goal**: Enable users to search and filter courses across the platform.
+> **Assigned to**: Dev C
+
+---
+
+### US-06.1 — Global Search Bar
+
+**As a** user,
+**I want** a search bar in the Navbar,
+**So that** I can quickly find courses from anywhere.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Search input in Navbar (hidden on mobile)
+- [ ] Pressing Enter navigates to `/search?q=query`
+- [ ] Query pre-filled on SearchPage
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add search input to Navbar | Dev C | 0.5h |
+| Navigate to search page with query param on Enter | Dev C | 0.5h |
+| Read query param in SearchPage and trigger search | Dev C | 0.5h |
+
+---
+
+### US-06.2 — Search Results Page
+
+**As a** user,
+**I want** to see search results with filters,
+**So that** I can refine my search.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 5 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Search input with search button
+- [ ] Filters: speciality, year
+- [ ] Results displayed as CourseCard grid
+- [ ] Result count shown
+- [ ] Empty state for no results
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [SearchPage](file:///c:/cmclearning/src/features/search/pages/SearchPage.tsx#10-112) UI with form | Dev C | 2h |
+| Create `searchService.searchCourses()` | Dev C | 0.5h |
+| Integrate speciality/year filter dropdowns | Dev C | 1h |
+| Display results using CourseCard | Dev C | 0.5h |
+
+---
+
+### US-06.3 — Debounced Search Suggestions (Future)
+
+**As a** user,
+**I want** to see live suggestions as I type,
+**So that** I can find courses faster.
+
+| Field | Value |
+|-------|-------|
+| Priority | Low |
+| Story Points | 5 |
+| Sprint | Backlog |
+
+**Acceptance Criteria:**
+- [ ] Dropdown suggestions appear after 300ms debounce
+- [ ] Clicking a suggestion navigates to course
+
+---
+
+## EP-07 — Admin Dashboard
+
+> **Goal**: Provide admins with tools to manage users, validate resources, and monitor the platform.
+> **Assigned to**: Dev D
+
+---
+
+### US-07.1 — Dashboard Statistics
+
+**As an** admin,
+**I want** to see platform statistics at a glance,
+**So that** I can monitor overall health.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Stat cards: total users, courses, resources, questions
+- [ ] Users by role breakdown
+- [ ] Recent activity feed
+- [ ] Pending resources alert
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [AdminDashboard](file:///c:/cmclearning/src/features/admin/pages/AdminDashboard.tsx#15-109) page | Dev D | 2h |
+| Create `adminService.getStats()` | Dev D | 0.5h |
+| Build stat cards with gradient icons | Dev D | 1h |
+| Build recent activity feed | Dev D | 1h |
+
+---
+
+### US-07.2 — Manage Users
+
+**As an** admin,
+**I want** to view, edit, and delete user accounts,
+**So that** I can manage the user base.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 8 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] Table of users with name, email, role, registration date
+- [ ] Search/filter users by role
+- [ ] Edit user role or details
+- [ ] Delete user with confirmation
+- [ ] Pagination for large user lists
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create `UsersManagementPage` with data table | Dev D | 3h |
+| Implement `adminService.getUsers()` | Dev D | 0.5h |
+| Edit user modal with form | Dev D | 1.5h |
+| Delete user with confirmation modal | Dev D | 1h |
+| Role filter and search | Dev D | 1h |
+
+---
+
+### US-07.3 — Validate Resources
+
+**As an** admin,
+**I want** to approve or reject uploaded resources,
+**So that** only quality content is available.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] List of pending resources with file details
+- [ ] "Approve" and "Reject" buttons
+- [ ] Approved resources become visible to all users
+- [ ] Rejected resources are deleted with notification
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create pending resources list UI | Dev D | 1.5h |
+| Implement `adminService.validateResource()` | Dev D | 0.5h |
+| Implement `adminService.rejectResource()` | Dev D | 0.5h |
+| Update pending count on dashboard | Dev D | 0.5h |
+
+---
+
+### US-07.4 — View Platform Activity
+
+**As an** admin,
+**I want** to see recent activity logs,
+**So that** I can monitor platform usage.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 5 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] Timeline of events: course created, resource uploaded, user registered, question asked
+- [ ] Each event shows description, user, timestamp
+- [ ] Sorted by most recent
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create activity feed component | Dev D | 1.5h |
+| Fetch and display activity data from API | Dev D | 1h |
+
+---
+
+### US-07.5 — View Platform Charts (Future)
+
+**As an** admin,
+**I want** to see visual charts of platform growth,
+**So that** I can track trends.
+
+| Field | Value |
+|-------|-------|
+| Priority | Low |
+| Story Points | 3 |
+| Sprint | Backlog |
+
+---
+
+## EP-08 — Profile Management
+
+> **Goal**: Allow users to view and update their profile information.
+> **Assigned to**: Dev A
+
+---
+
+### US-08.1 — View Profile
+
+**As a** user,
+**I want** to see my profile information,
+**So that** I can verify my details.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Avatar with initials
+- [ ] Display: name, email, role, speciality, year
+- [ ] Clean card layout
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [ProfilePage](file:///c:/cmclearning/src/features/profile/pages/ProfilePage.tsx#8-90) with avatar and info cards | Dev A | 1.5h |
+| Display user data from Redux store | Dev A | 0.5h |
+
+---
+
+### US-08.2 — Edit Profile
+
+**As a** user,
+**I want** to edit my name and email,
+**So that** I can keep my information current.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 3 |
+| Sprint | Sprint 2 |
+
+**Acceptance Criteria:**
+- [ ] Toggle edit mode with "Edit" button
+- [ ] Editable fields: first name, last name, email
+- [ ] Save button calls API and updates Redux store
+- [ ] Loading state during save
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Add edit/save toggle mode | Dev A | 1h |
+| Implement `authService.updateProfile()` | Dev A | 0.5h |
+| Update Redux store after save | Dev A | 0.5h |
+
+---
+
+### US-08.3 — Change Password
+
+**As a** user,
+**I want** to change my password,
+**So that** I can maintain security.
+
+| Field | Value |
+|-------|-------|
+| Priority | Medium |
+| Story Points | 2 |
+| Sprint | Sprint 3 |
+
+**Acceptance Criteria:**
+- [ ] Fields: current password, new password, confirm new password
+- [ ] Validation: passwords match, min 6 chars
+- [ ] Success/error feedback
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create change password form section | Dev A | 1h |
+| Implement change password API call | Dev A | 0.5h |
+
+---
+
+### US-08.4 — Upload Avatar (Future)
+
+**As a** user,
+**I want** to upload a profile picture,
+**So that** others can identify me.
+
+| Field | Value |
+|-------|-------|
+| Priority | Low |
+| Story Points | 2 |
+| Sprint | Backlog |
+
+---
+
+## EP-09 — Platform Shell & Navigation
+
+> **Goal**: Create the core layout, navigation, and shared infrastructure.
+> **Assigned to**: Dev A + Dev C (shared)
+
+---
+
+### US-09.1 — Main Layout with Navbar & Sidebar
+
+**As a** user,
+**I want** a consistent navigation layout,
+**So that** I can easily navigate the platform.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 5 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] Fixed top Navbar with logo, search, notifications, user menu
+- [ ] Sidebar with navigation links
+- [ ] Sidebar links change based on user role
+- [ ] Mobile responsive: hamburger menu toggles sidebar
+- [ ] Active link highlighted
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [Navbar](file:///c:/cmclearning/src/components/layout/Navbar.tsx#11-91) component | Dev A | 2h |
+| Create [Sidebar](file:///c:/cmclearning/src/components/layout/Sidebar.tsx#32-127) component with role-based links | Dev C | 2h |
+| Create [MainLayout](file:///c:/cmclearning/src/components/layout/MainLayout.tsx#6-23) wrapper | Dev A | 0.5h |
+| Mobile responsive sidebar with overlay | Dev C | 1h |
+
+---
+
+### US-09.2 — 404 Not Found Page
+
+**As a** user,
+**I want** a friendly 404 page,
+**So that** I know when a page doesn't exist.
+
+| Field | Value |
+|-------|-------|
+| Priority | Low |
+| Story Points | 1 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] Displays "404" with message
+- [ ] Link back to dashboard
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [NotFoundPage](file:///c:/cmclearning/src/app/NotFoundPage.tsx#5-19) | Dev A | 0.5h |
+
+---
+
+### US-09.3 — Reusable UI Component Library
+
+**As a** developer,
+**I want** shared UI components (Button, Input, Card, etc.),
+**So that** the UI is consistent across the platform.
+
+| Field | Value |
+|-------|-------|
+| Priority | High |
+| Story Points | 2 |
+| Sprint | Sprint 1 |
+
+**Acceptance Criteria:**
+- [ ] Button with variants: primary, secondary, danger, ghost + sizes + loading
+- [ ] Input with label, error, icon props
+- [ ] Card with optional hover effect
+- [ ] LoadingSpinner, EmptyState, StarRating components
+
+**Sub-Tasks:**
+| Task | Assignee | Est. |
+|------|----------|------|
+| Create [Button](file:///c:/cmclearning/src/components/ui/Button.tsx#10-55), [Input](file:///c:/cmclearning/src/components/ui/Input.tsx#9-45), [Card](file:///c:/cmclearning/src/components/ui/Card.tsx#8-21) components | Dev C | 1.5h |
+| Create [LoadingSpinner](file:///c:/cmclearning/src/components/ui/LoadingSpinner.tsx#1-16), [EmptyState](file:///c:/cmclearning/src/components/ui/EmptyState.tsx#8-20), [StarRating](file:///c:/cmclearning/src/components/ui/StarRating.tsx#11-39) | Dev C | 1h |
+
+---
+
+## Sprint Planning Recommendation
+
+| Sprint | Focus | Key Stories |
+|--------|-------|-------------|
+| **Sprint 1** | Foundation | EP-09 (Shell), US-01.1–01.5 (Auth), US-02.1–02.2 (Course List/Detail), US-03.1 (Resource List) |
+| **Sprint 2** | Core Features | US-02.3–02.6 (Course CRUD), US-03.2–03.4 (Upload/Download), US-04.1–04.2 (Ratings), US-05.1–05.4 (Forum), US-06.1–06.2 (Search), US-07.1 (Admin Stats), US-08.1–08.2 (Profile) |
+| **Sprint 3** | Polish & Admin | US-05.5–05.6 (Voting), US-04.3–04.4 (Reviews), US-07.2–07.4 (Admin CRUD), US-03.5–03.6 (Resource extras), US-08.3 (Password), US-02.7 (Thumbnail) |
+| **Sprint 4** | Stretch | Backlog items: password reset, search suggestions, avatar upload, charts |
+
+---
+
+> **Total**: 9 Epics · 35 User Stories · ~170 Story Points · 4 Sprints

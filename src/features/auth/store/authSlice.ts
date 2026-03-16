@@ -1,26 +1,35 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import type { AuthState, LoginCredentials, RegisterData, User } from '@/types';
 import { authService } from '../services/authService';
+import { storage } from '../utils/storage';
 
 const initialState: AuthState = {
-    user: JSON.parse(localStorage.getItem('cmc_user') || 'null'),
-    token: localStorage.getItem('cmc_token'),
-    isAuthenticated: !!localStorage.getItem('cmc_token'),
+    user: storage.getUser(),
+    token: storage.getToken(),
+    isAuthenticated: !!storage.getToken(),
     isLoading: false,
     error: null,
 };
+
+/**
+ * Extract a human-readable error message from an Error or unknown.
+ */
+function extractErrorMessage(error: unknown, fallback: string): string {
+    if (error instanceof Error) return error.message;
+    if (typeof error === 'string') return error;
+    return fallback;
+}
 
 export const loginUser = createAsyncThunk(
     'auth/login',
     async (credentials: LoginCredentials, { rejectWithValue }) => {
         try {
             const response = await authService.login(credentials);
-            localStorage.setItem('cmc_token', response.token);
-            localStorage.setItem('cmc_user', JSON.stringify(response.user));
+            storage.setToken(response.token);
+            storage.setUser(response.user);
             return response;
         } catch (error: unknown) {
-            const message = error instanceof Error ? error.message : 'Échec de la connexion';
-            return rejectWithValue(message);
+            return rejectWithValue(extractErrorMessage(error, 'Échec de la connexion'));
         }
     }
 );
@@ -30,12 +39,11 @@ export const registerUser = createAsyncThunk(
     async (data: RegisterData, { rejectWithValue }) => {
         try {
             const response = await authService.register(data);
-            localStorage.setItem('cmc_token', response.token);
-            localStorage.setItem('cmc_user', JSON.stringify(response.user));
+            storage.setToken(response.token);
+            storage.setUser(response.user);
             return response;
         } catch (error: unknown) {
-            const message = error instanceof Error ? error.message : "Échec de l'inscription";
-            return rejectWithValue(message);
+            return rejectWithValue(extractErrorMessage(error, "Échec de l'inscription"));
         }
     }
 );
@@ -49,8 +57,7 @@ const authSlice = createSlice({
             state.token = null;
             state.isAuthenticated = false;
             state.error = null;
-            localStorage.removeItem('cmc_token');
-            localStorage.removeItem('cmc_user');
+            storage.clearAuth();
         },
         clearError: (state) => {
             state.error = null;

@@ -1,0 +1,912 @@
+[
+    {
+        "Epic ID": "EP-01",
+        "Story ID": "US-01.1",
+        "Title": "User Registration",
+        "Description": "As a visitor, I want to register with my email, name, password, and role, so that I can access the platform.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "User can select role: Stagiaire or Formateur",
+            "Stagiaire can select speciality + year",
+            "Email must be unique — display error if taken",
+            "Password requires minimum 6 characters",
+            "Password confirmation field must match",
+            "On success, user is redirected to Dashboard",
+            "JWT token is stored in localStorage"
+        ],
+        "Subtasks": [
+            "Create RegisterPage UI with form fields (2h)",
+            "Implement form validation (client-side) (1h)",
+            "Connect to POST /api/auth/register (1h)",
+            "Create registerUser async thunk in authSlice (1h)",
+            "Handle error states and display messages (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-01",
+        "Story ID": "US-01.2",
+        "Title": "User Login",
+        "Description": "As a registered user, I want to log in with my email and password, so that I can access my account.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "User enters email + password",
+            "On success, JWT is stored and user is redirected to Dashboard",
+            "On failure, a clear error message is displayed",
+            "Loading spinner is shown during request"
+        ],
+        "Subtasks": [
+            "Create LoginPage UI (1.5h)",
+            "Create loginUser async thunk (1h)",
+            "Store JWT + user in localStorage and Redux (1h)",
+            "Handle API errors and display feedback (1h)",
+            "Add redirect to Dashboard on success (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-01",
+        "Story ID": "US-01.3",
+        "Title": "JWT Token Management",
+        "Description": "As a logged-in user, I want my session to persist across page refreshes, so that I don't have to log in every time.",
+        "Priority": "High",
+        "Story Points": 3,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "JWT token is auto-attached to every API request via Axios interceptor",
+            "On 401 response, user is redirected to login and token cleared",
+            "On app load, user state is restored from localStorage"
+        ],
+        "Subtasks": [
+            "Configure Axios interceptor for Authorization header (1h)",
+            "Implement 401 response interceptor with redirect (1h)",
+            "Restore auth state from localStorage on app init (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-01",
+        "Story ID": "US-01.4",
+        "Title": "Protected Routes",
+        "Description": "As a platform admin, I want unauthenticated users blocked from protected pages, so that only logged-in users can access the platform.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "ProtectedRoute redirects unauthenticated users to /login",
+            "RoleGuard blocks users without the required role → /unauthorized",
+            "Admin routes only accessible by admin role",
+            "Formateur routes accessible by formateur + admin",
+            "Unauthorized page displays clear message with back link"
+        ],
+        "Subtasks": [
+            "Create ProtectedRoute component (1h)",
+            "Create RoleGuard component (1h)",
+            "Create UnauthorizedPage (0.5h)",
+            "Configure route nesting in router.tsx (1.5h)",
+            "Test all role-based access scenarios (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-01",
+        "Story ID": "US-01.5",
+        "Title": "Logout",
+        "Description": "As a logged-in user, I want to log out of my account, so that I can secure my session.",
+        "Priority": "High",
+        "Story Points": 2,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "Logout button in Navbar",
+            "On click, JWT and user data cleared from localStorage + Redux",
+            "User redirected to login page"
+        ],
+        "Subtasks": [
+            "Add logout action to authSlice (0.5h)",
+            "Add logout button to Navbar (0.5h)",
+            "Clear storage and redirect on logout (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-01",
+        "Story ID": "US-01.6",
+        "Title": "Auto-Redirect Authenticated Users",
+        "Description": "As a logged-in user, I want to be redirected to Dashboard if I visit /login, so that I don't see the login page unnecessarily.",
+        "Priority": "Low",
+        "Story Points": 2,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "If user is authenticated and visits /login or /register, redirect to /dashboard"
+        ],
+        "Subtasks": [
+            "Add redirect logic in LoginPage and RegisterPage (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-01",
+        "Story ID": "US-01.7",
+        "Title": "Password Reset",
+        "Description": "As a user who forgot my password, I want to reset it via email, so that I can regain access.",
+        "Priority": "Low",
+        "Story Points": 5,
+        "Sprint": "Backlog",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [],
+        "Subtasks": []
+    },
+    {
+        "Epic ID": "EP-02",
+        "Story ID": "US-02.1",
+        "Title": "View Courses List",
+        "Description": "As a stagiaire, I want to see a list of all available courses, so that I can find courses relevant to me.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "Courses displayed in responsive grid (1/2/3 columns)",
+            "Each card shows: thumbnail, title, description, formateur, rating, speciality",
+            "Loading spinner while fetching",
+            "Empty state when no courses found",
+            "Pagination if > 12 courses"
+        ],
+        "Subtasks": [
+            "Create CourseCard component (1.5h)",
+            "Create CoursesPage with grid layout (2h)",
+            "Create coursesSlice with fetchCourses thunk (1.5h)",
+            "Create coursesService.getAll() (0.5h)",
+            "Add pagination component (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-02",
+        "Story ID": "US-02.2",
+        "Title": "Course Details Page",
+        "Description": "As a stagiaire, I want to see full details of a course, so that I can understand its content before studying.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "Hero banner with thumbnail/gradient fallback",
+            "Displays: title, description, content, speciality, year, formateur, date, rating",
+            "Lists attached resources with download buttons",
+            "Shows edit/delete buttons for owner (formateur) and admin only",
+            "Back button to courses list"
+        ],
+        "Subtasks": [
+            "Create CourseDetailsPage UI (2h)",
+            "Create fetchCourseById thunk (1h)",
+            "Display resources section (1h)",
+            "Conditional edit/delete buttons per role (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-02",
+        "Story ID": "US-02.3",
+        "Title": "Create Course",
+        "Description": "As a formateur, I want to create a new course with title, description, content, speciality, and year, so that my students can access my teaching material.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "Only formateurs and admins can access the create form",
+            "Form fields: title, description, content (textarea), speciality (dropdown), year, thumbnail (optional)",
+            "Validation: title and description required",
+            "On success, redirect to new course details",
+            "Success toast notification"
+        ],
+        "Subtasks": [
+            "Create CreateCoursePage with form (2h)",
+            "Implement coursesService.create() with FormData (1h)",
+            "Add route guard for formateur role (0.5h)",
+            "Add success redirect and toast (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-02",
+        "Story ID": "US-02.4",
+        "Title": "Edit Course",
+        "Description": "As a formateur, I want to edit my existing course, so that I can keep it up to date.",
+        "Priority": "Medium",
+        "Story Points": 5,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "Pre-populated form with current values",
+            "Only course owner or admin can access",
+            "On save, updated course is displayed"
+        ],
+        "Subtasks": [
+            "Create EditCoursePage (reuse form component) (1.5h)",
+            "Implement coursesService.update() (0.5h)",
+            "Ownership check before rendering form (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-02",
+        "Story ID": "US-02.5",
+        "Title": "Delete Course",
+        "Description": "As a formateur, I want to delete a course I created, so that I can remove outdated content.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "Confirmation modal before deletion",
+            "Only owner or admin can delete",
+            "On success, redirect to courses list",
+            "Course removed from Redux store"
+        ],
+        "Subtasks": [
+            "Create confirmation modal component (1h)",
+            "Implement coursesService.delete() (0.5h)",
+            "Handle Redux state cleanup (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-02",
+        "Story ID": "US-02.6",
+        "Title": "Filter Courses by Speciality & Year",
+        "Description": "As a stagiaire, I want to filter courses by speciality and year, so that I see only relevant courses.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "Dropdown filters for speciality and year",
+            "Filters trigger re-fetch",
+            "Reset button clears filters",
+            "Toggleable filter panel"
+        ],
+        "Subtasks": [
+            "Add filter dropdowns to CoursesPage (1h)",
+            "Pass filter params to fetchCourses (0.5h)",
+            "Add reset button (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-02",
+        "Story ID": "US-02.7",
+        "Title": "Course Thumbnail Upload",
+        "Description": "As a formateur, I want to upload a thumbnail image for my course, so that it looks attractive in the listing.",
+        "Priority": "Low",
+        "Story Points": 3,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "File picker accepts images only (JPG, PNG, WebP)",
+            "Preview shown before submission",
+            "Max file size: 5MB"
+        ],
+        "Subtasks": [
+            "Create image upload component with preview (1.5h)",
+            "Integrate into create/edit course form (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-03",
+        "Story ID": "US-03.1",
+        "Title": "View Resources List",
+        "Description": "As a stagiaire, I want to see a list of available resources, so that I can find materials to study.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Resources displayed in list view with type icon, title, size, date",
+            "Pending validation badge for unvalidated resources",
+            "Loading and empty states",
+            "Download button per resource"
+        ],
+        "Subtasks": [
+            "Create ResourcesPage UI (2h)",
+            "Create resourcesSlice and fetchResources thunk (1h)",
+            "Create resourcesService.getAll() (0.5h)",
+            "Add type icons mapping (PDF, video, document) (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-03",
+        "Story ID": "US-03.2",
+        "Title": "Upload Resource",
+        "Description": "As a formateur, I want to upload a PDF, video, or document, so that students can access it.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Only formateur or admin can upload",
+            "File picker with supported formats (PDF, MP4, DOCX, etc.)",
+            "Title auto-fills from filename",
+            "Upload progress indicator",
+            "Resource added to list after upload"
+        ],
+        "Subtasks": [
+            "Create file upload UI with hidden input (1h)",
+            "Implement resourcesService.upload() with FormData (1h)",
+            "Add upload progress bar (1.5h)",
+            "Refresh list after successful upload (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-03",
+        "Story ID": "US-03.3",
+        "Title": "Download Resource",
+        "Description": "As a stagiaire, I want to download a resource file, so that I can study offline.",
+        "Priority": "High",
+        "Story Points": 3,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Click download triggers blob download",
+            "File saves with original filename",
+            "Loading state on download button"
+        ],
+        "Subtasks": [
+            "Implement resourcesService.download() with responseType blob (1h)",
+            "Trigger browser download via object URL (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-03",
+        "Story ID": "US-03.4",
+        "Title": "Filter Resources by Speciality / Year / Type",
+        "Description": "As a stagiaire, I want to filter resources by speciality, year, and type, so that I find exactly what I need.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Three dropdown filters: speciality, year, type",
+            "Filters trigger re-fetch with params",
+            "Toggleable filter panel"
+        ],
+        "Subtasks": [
+            "Add filter dropdowns to ResourcesPage (1h)",
+            "Pass filter params to API call (0.5h)",
+            "Toggle visibility of filter panel (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-03",
+        "Story ID": "US-03.5",
+        "Title": "Delete Resource",
+        "Description": "As a formateur, I want to delete a resource I uploaded, so that I can remove outdated files.",
+        "Priority": "Low",
+        "Story Points": 2,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Confirmation before deletion",
+            "Only uploader or admin can delete",
+            "Resource removed from list"
+        ],
+        "Subtasks": [
+            "Add delete button (role-gated) (0.5h)",
+            "Confirmation modal + API call (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-03",
+        "Story ID": "US-03.6",
+        "Title": "Link Resource to Course",
+        "Description": "As a formateur, I want to attach resources to a specific course, so that students can find them in context.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Course selector dropdown during upload",
+            "Resources appear in course details page"
+        ],
+        "Subtasks": [
+            "Add optional course selector to upload form (1h)",
+            "Display linked resources in CourseDetailsPage (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-04",
+        "Story ID": "US-04.1",
+        "Title": "Rate a Course",
+        "Description": "As a stagiaire, I want to rate a course from 1 to 5 stars, so that I can share my feedback.",
+        "Priority": "Medium",
+        "Story Points": 5,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "Interactive star rating (1-5)",
+            "Optional comment field",
+            "User can only rate once per course",
+            "Submit button disabled until stars selected",
+            "Rating added to list immediately"
+        ],
+        "Subtasks": [
+            "Create interactive StarRating component (1h)",
+            "Create CourseRatings component with form (2h)",
+            "Implement ratingsService.create() (0.5h)",
+            "Check if user already rated (hide form if yes) (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-04",
+        "Story ID": "US-04.2",
+        "Title": "Display Average Rating",
+        "Description": "As a stagiaire, I want to see the average rating on course cards and details, so that I can identify high-quality courses.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "Star display + numeric average + total count on CourseCard",
+            "Same display on CourseDetailsPage",
+            "Updates after new rating submitted"
+        ],
+        "Subtasks": [
+            "Add StarRating display to CourseCard (0.5h)",
+            "Add average display to CourseDetailsPage (0.5h)",
+            "Refresh average after new submission (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-04",
+        "Story ID": "US-04.3",
+        "Title": "View All Reviews",
+        "Description": "As a stagiaire, I want to read other students' reviews on a course, so that I can make an informed decision.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "List of reviews with user avatar, name, date, stars, comment",
+            "Sorted by most recent",
+            "No reviews message if empty"
+        ],
+        "Subtasks": [
+            "Create review list UI in CourseRatings (1h)",
+            "Implement ratingsService.getByCourse() (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-04",
+        "Story ID": "US-04.4",
+        "Title": "Edit/Delete Own Rating",
+        "Description": "As a stagiaire, I want to edit or delete my rating, so that I can update my feedback.",
+        "Priority": "Low",
+        "Story Points": 2,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev B",
+        "Acceptance Criteria": [
+            "Edit and delete buttons visible only on own review",
+            "Edit opens inline form with current values",
+            "Delete requires confirmation"
+        ],
+        "Subtasks": [
+            "Add edit/delete buttons (owner only) (0.5h)",
+            "Implement edit inline mode (1h)",
+            "Implement delete with confirmation (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-05",
+        "Story ID": "US-05.1",
+        "Title": "View Questions List",
+        "Description": "As a user, I want to see a list of all questions, so that I can find help or help others.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "Questions displayed with title, excerpt, author, date, vote count, answer count, tags",
+            "Sorted by most recent",
+            "Loading and empty states",
+            "Clickable → navigates to question detail"
+        ],
+        "Subtasks": [
+            "Create ForumPage with questions list (2h)",
+            "Create forumSlice with fetchQuestions thunk (1h)",
+            "Create forumService.getAll() (0.5h)",
+            "Tags display with styled badges (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-05",
+        "Story ID": "US-05.2",
+        "Title": "Ask a Question",
+        "Description": "As a user, I want to post a new question with title, body, and tags, so that I can get help from the community.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "Toggle Ask Question form",
+            "Fields: title (required), body/details (required), tags (comma-separated)",
+            "On submit, question appears in list",
+            "Form resets and closes after submission"
+        ],
+        "Subtasks": [
+            "Create new question form UI (1.5h)",
+            "Implement forumService.createQuestion() (0.5h)",
+            "Refresh question list after submission (0.5h)",
+            "Form validation (title + body required) (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-05",
+        "Story ID": "US-05.3",
+        "Title": "View Question Detail & Answers",
+        "Description": "As a user, I want to view a question with its full details and all answers, so that I can read the discussion.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "Full question body displayed",
+            "List of answers with author, date, body, vote count",
+            "Accepted answer highlighted",
+            "No answers yet empty state"
+        ],
+        "Subtasks": [
+            "Create QuestionDetailPage (2h)",
+            "Create fetchQuestionById thunk (1h)",
+            "Display answer list with accepted badge (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-05",
+        "Story ID": "US-05.4",
+        "Title": "Answer a Question",
+        "Description": "As a user, I want to submit an answer to a question, so that I can help the community.",
+        "Priority": "High",
+        "Story Points": 3,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "Textarea for answer body (required)",
+            "Submit button with loading state",
+            "New answer appears in list immediately"
+        ],
+        "Subtasks": [
+            "Create answer form at bottom of question detail (1h)",
+            "Implement forumService.createAnswer() (0.5h)",
+            "Refresh answers after submission (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-05",
+        "Story ID": "US-05.5",
+        "Title": "Vote on Questions and Answers",
+        "Description": "As a user, I want to upvote or downvote questions and answers, so that the best content rises to the top.",
+        "Priority": "Medium",
+        "Story Points": 5,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "Up/down vote buttons on questions and answers",
+            "Vote count updates immediately (optimistic UI)",
+            "User can change their vote",
+            "Cannot vote on own content"
+        ],
+        "Subtasks": [
+            "Create vote button component (1h)",
+            "Implement forumService.voteQuestion() (0.5h)",
+            "Implement forumService.voteAnswer() (0.5h)",
+            "Optimistic UI update on vote (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-05",
+        "Story ID": "US-05.6",
+        "Title": "Accept Answer",
+        "Description": "As a question author, I want to mark an answer as accepted, so that others know the problem is solved.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "Accept button visible only to question author",
+            "Only one answer can be accepted",
+            "Accepted answer gets green checkmark and moves to top"
+        ],
+        "Subtasks": [
+            "Add accept button (author-gated) (0.5h)",
+            "Implement forumService.acceptAnswer() (0.5h)",
+            "Visual styling for accepted answer (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-06",
+        "Story ID": "US-06.1",
+        "Title": "Global Search Bar",
+        "Description": "As a user, I want a search bar in the Navbar, so that I can quickly find courses from anywhere.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Search input in Navbar (hidden on mobile)",
+            "Pressing Enter navigates to /search?q=query",
+            "Query pre-filled on SearchPage"
+        ],
+        "Subtasks": [
+            "Add search input to Navbar (0.5h)",
+            "Navigate to search page with query param on Enter (0.5h)",
+            "Read query param in SearchPage and trigger search (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-06",
+        "Story ID": "US-06.2",
+        "Title": "Search Results Page",
+        "Description": "As a user, I want to see search results with filters, so that I can refine my search.",
+        "Priority": "Medium",
+        "Story Points": 5,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Search input with search button",
+            "Filters: speciality, year",
+            "Results displayed as CourseCard grid",
+            "Result count shown",
+            "Empty state for no results"
+        ],
+        "Subtasks": [
+            "Create SearchPage UI with form (2h)",
+            "Create searchService.searchCourses() (0.5h)",
+            "Integrate speciality/year filter dropdowns (1h)",
+            "Display results using CourseCard (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-06",
+        "Story ID": "US-06.3",
+        "Title": "Debounced Search Suggestions",
+        "Description": "As a user, I want to see live suggestions as I type, so that I can find courses faster.",
+        "Priority": "Low",
+        "Story Points": 5,
+        "Sprint": "Backlog",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Dropdown suggestions appear after 300ms debounce",
+            "Clicking a suggestion navigates to course"
+        ],
+        "Subtasks": []
+    },
+    {
+        "Epic ID": "EP-07",
+        "Story ID": "US-07.1",
+        "Title": "Dashboard Statistics",
+        "Description": "As an admin, I want to see platform statistics at a glance, so that I can monitor overall health.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "Stat cards: total users, courses, resources, questions",
+            "Users by role breakdown",
+            "Recent activity feed",
+            "Pending resources alert"
+        ],
+        "Subtasks": [
+            "Create AdminDashboard page (2h)",
+            "Create adminService.getStats() (0.5h)",
+            "Build stat cards with gradient icons (1h)",
+            "Build recent activity feed (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-07",
+        "Story ID": "US-07.2",
+        "Title": "Manage Users",
+        "Description": "As an admin, I want to view, edit, and delete user accounts, so that I can manage the user base.",
+        "Priority": "High",
+        "Story Points": 8,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "Table of users with name, email, role, registration date",
+            "Search/filter users by role",
+            "Edit user role or details",
+            "Delete user with confirmation",
+            "Pagination for large user lists"
+        ],
+        "Subtasks": [
+            "Create UsersManagementPage with data table (3h)",
+            "Implement adminService.getUsers() (0.5h)",
+            "Edit user modal with form (1.5h)",
+            "Delete user with confirmation modal (1h)",
+            "Role filter and search (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-07",
+        "Story ID": "US-07.3",
+        "Title": "Validate Resources",
+        "Description": "As an admin, I want to approve or reject uploaded resources, so that only quality content is available.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "List of pending resources with file details",
+            "Approve and Reject buttons",
+            "Approved resources become visible to all users",
+            "Rejected resources are deleted with notification"
+        ],
+        "Subtasks": [
+            "Create pending resources list UI (1.5h)",
+            "Implement adminService.validateResource() (0.5h)",
+            "Implement adminService.rejectResource() (0.5h)",
+            "Update pending count on dashboard (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-07",
+        "Story ID": "US-07.4",
+        "Title": "View Platform Activity",
+        "Description": "As an admin, I want to see recent activity logs, so that I can monitor platform usage.",
+        "Priority": "Medium",
+        "Story Points": 5,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [
+            "Timeline of events: course created, resource uploaded, user registered, question asked",
+            "Each event shows description, user, timestamp",
+            "Sorted by most recent"
+        ],
+        "Subtasks": [
+            "Create activity feed component (1.5h)",
+            "Fetch and display activity data from API (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-07",
+        "Story ID": "US-07.5",
+        "Title": "View Platform Charts",
+        "Description": "As an admin, I want to see visual charts of platform growth, so that I can track trends.",
+        "Priority": "Low",
+        "Story Points": 3,
+        "Sprint": "Backlog",
+        "Assignee": "Dev D",
+        "Acceptance Criteria": [],
+        "Subtasks": []
+    },
+    {
+        "Epic ID": "EP-08",
+        "Story ID": "US-08.1",
+        "Title": "View Profile",
+        "Description": "As a user, I want to see my profile information, so that I can verify my details.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "Avatar with initials",
+            "Display: name, email, role, speciality, year",
+            "Clean card layout"
+        ],
+        "Subtasks": [
+            "Create ProfilePage with avatar and info cards (1.5h)",
+            "Display user data from Redux store (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-08",
+        "Story ID": "US-08.2",
+        "Title": "Edit Profile",
+        "Description": "As a user, I want to edit my name and email, so that I can keep my information current.",
+        "Priority": "Medium",
+        "Story Points": 3,
+        "Sprint": "Sprint 2",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "Toggle edit mode with Edit button",
+            "Editable fields: first name, last name, email",
+            "Save button calls API and updates Redux store",
+            "Loading state during save"
+        ],
+        "Subtasks": [
+            "Add edit/save toggle mode (1h)",
+            "Implement authService.updateProfile() (0.5h)",
+            "Update Redux store after save (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-08",
+        "Story ID": "US-08.3",
+        "Title": "Change Password",
+        "Description": "As a user, I want to change my password, so that I can maintain security.",
+        "Priority": "Medium",
+        "Story Points": 2,
+        "Sprint": "Sprint 3",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "Fields: current password, new password, confirm new password",
+            "Validation: passwords match, min 6 chars",
+            "Success/error feedback"
+        ],
+        "Subtasks": [
+            "Create change password form section (1h)",
+            "Implement change password API call (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-08",
+        "Story ID": "US-08.4",
+        "Title": "Upload Avatar",
+        "Description": "As a user, I want to upload a profile picture, so that others can identify me.",
+        "Priority": "Low",
+        "Story Points": 2,
+        "Sprint": "Backlog",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [],
+        "Subtasks": []
+    },
+    {
+        "Epic ID": "EP-09",
+        "Story ID": "US-09.1",
+        "Title": "Main Layout with Navbar & Sidebar",
+        "Description": "As a user, I want a consistent navigation layout, so that I can easily navigate the platform.",
+        "Priority": "High",
+        "Story Points": 5,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev A + Dev C",
+        "Acceptance Criteria": [
+            "Fixed top Navbar with logo, search, notifications, user menu",
+            "Sidebar with navigation links",
+            "Sidebar links change based on user role",
+            "Mobile responsive: hamburger menu toggles sidebar",
+            "Active link highlighted"
+        ],
+        "Subtasks": [
+            "Create Navbar component (2h)",
+            "Create Sidebar component with role-based links (2h)",
+            "Create MainLayout wrapper (0.5h)",
+            "Mobile responsive sidebar with overlay (1h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-09",
+        "Story ID": "US-09.2",
+        "Title": "404 Not Found Page",
+        "Description": "As a user, I want a friendly 404 page, so that I know when a page doesn't exist.",
+        "Priority": "Low",
+        "Story Points": 1,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev A",
+        "Acceptance Criteria": [
+            "Displays 404 with message",
+            "Link back to dashboard"
+        ],
+        "Subtasks": [
+            "Create NotFoundPage (0.5h)"
+        ]
+    },
+    {
+        "Epic ID": "EP-09",
+        "Story ID": "US-09.3",
+        "Title": "Reusable UI Component Library",
+        "Description": "As a developer, I want shared UI components (Button, Input, Card, etc.), so that the UI is consistent across the platform.",
+        "Priority": "High",
+        "Story Points": 2,
+        "Sprint": "Sprint 1",
+        "Assignee": "Dev C",
+        "Acceptance Criteria": [
+            "Button with variants: primary, secondary, danger, ghost + sizes + loading",
+            "Input with label, error, icon props",
+            "Card with optional hover effect",
+            "LoadingSpinner, EmptyState, StarRating components"
+        ],
+        "Subtasks": [
+            "Create Button, Input, Card components (1.5h)",
+            "Create LoadingSpinner, EmptyState, StarRating (1h)"
+        ]
+    }
+]

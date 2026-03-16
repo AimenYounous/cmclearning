@@ -8,6 +8,9 @@ export interface User {
     lastName: string;
     role: UserRole;
     avatar?: string;
+    formationType?: string;
+    formationLevel?: string;
+    pole?: string;
     speciality?: string;
     year?: number;
     createdAt: string;
@@ -33,6 +36,9 @@ export interface RegisterData {
     firstName: string;
     lastName: string;
     role: UserRole;
+    formationType?: string;
+    formationLevel?: string;
+    pole?: string;
     speciality?: string;
     year?: number;
 }

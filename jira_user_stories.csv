@@ -1,0 +1,250 @@
+Epic ID,Story ID,Title,Description,Priority,Story Points,Sprint,Assignee,Acceptance Criteria,Subtasks
+EP-01,US-01.1,User Registration,"As a visitor, I want to register with my email, name, password, and role, so that I can access the platform.",High,5,Sprint 1,Dev A,"- User can select role: Stagiaire or Formateur
+- Stagiaire can select speciality + year
+- Email must be unique — display error if taken
+- Password requires minimum 6 characters
+- Password confirmation field must match
+- On success, user is redirected to Dashboard
+- JWT token is stored in localStorage","- Create RegisterPage UI with form fields (2h)
+- Implement form validation (client-side) (1h)
+- Connect to POST /api/auth/register (1h)
+- Create registerUser async thunk in authSlice (1h)
+- Handle error states and display messages (1h)"
+EP-01,US-01.2,User Login,"As a registered user, I want to log in with my email and password, so that I can access my account.",High,5,Sprint 1,Dev A,"- User enters email + password
+- On success, JWT is stored and user is redirected to Dashboard
+- On failure, a clear error message is displayed
+- Loading spinner is shown during request","- Create LoginPage UI (1.5h)
+- Create loginUser async thunk (1h)
+- Store JWT + user in localStorage and Redux (1h)
+- Handle API errors and display feedback (1h)
+- Add redirect to Dashboard on success (0.5h)"
+EP-01,US-01.3,JWT Token Management,"As a logged-in user, I want my session to persist across page refreshes, so that I don't have to log in every time.",High,3,Sprint 1,Dev A,"- JWT token is auto-attached to every API request via Axios interceptor
+- On 401 response, user is redirected to login and token cleared
+- On app load, user state is restored from localStorage","- Configure Axios interceptor for Authorization header (1h)
+- Implement 401 response interceptor with redirect (1h)
+- Restore auth state from localStorage on app init (1h)"
+EP-01,US-01.4,Protected Routes,"As a platform admin, I want unauthenticated users blocked from protected pages, so that only logged-in users can access the platform.",High,5,Sprint 1,Dev A,"- ProtectedRoute redirects unauthenticated users to /login
+- RoleGuard blocks users without the required role → /unauthorized
+- Admin routes only accessible by admin role
+- Formateur routes accessible by formateur + admin
+- Unauthorized page displays clear message with back link","- Create ProtectedRoute component (1h)
+- Create RoleGuard component (1h)
+- Create UnauthorizedPage (0.5h)
+- Configure route nesting in router.tsx (1.5h)
+- Test all role-based access scenarios (1h)"
+EP-01,US-01.5,Logout,"As a logged-in user, I want to log out of my account, so that I can secure my session.",High,2,Sprint 1,Dev A,"- Logout button in Navbar
+- On click, JWT and user data cleared from localStorage + Redux
+- User redirected to login page","- Add logout action to authSlice (0.5h)
+- Add logout button to Navbar (0.5h)
+- Clear storage and redirect on logout (0.5h)"
+EP-01,US-01.6,Auto-Redirect Authenticated Users,"As a logged-in user, I want to be redirected to Dashboard if I visit /login, so that I don't see the login page unnecessarily.",Low,2,Sprint 2,Dev A,"- If user is authenticated and visits /login or /register, redirect to /dashboard","- Add redirect logic in LoginPage and RegisterPage (1h)"
+EP-01,US-01.7,Password Reset,"As a user who forgot my password, I want to reset it via email, so that I can regain access.",Low,5,Backlog,Dev A,,
+EP-02,US-02.1,View Courses List,"As a stagiaire, I want to see a list of all available courses, so that I can find courses relevant to me.",High,5,Sprint 1,Dev B,"- Courses displayed in responsive grid (1/2/3 columns)
+- Each card shows: thumbnail, title, description, formateur, rating, speciality
+- Loading spinner while fetching
+- Empty state when no courses found
+- Pagination if > 12 courses","- Create CourseCard component (1.5h)
+- Create CoursesPage with grid layout (2h)
+- Create coursesSlice with fetchCourses thunk (1.5h)
+- Create coursesService.getAll() (0.5h)
+- Add pagination component (1h)"
+EP-02,US-02.2,Course Details Page,"As a stagiaire, I want to see full details of a course, so that I can understand its content before studying.",High,5,Sprint 1,Dev B,"- Hero banner with thumbnail/gradient fallback
+- Displays: title, description, content, speciality, year, formateur, date, rating
+- Lists attached resources with download buttons
+- Shows edit/delete buttons for owner (formateur) and admin only
+- Back button to courses list","- Create CourseDetailsPage UI (2h)
+- Create fetchCourseById thunk (1h)
+- Display resources section (1h)
+- Conditional edit/delete buttons per role (1h)"
+EP-02,US-02.3,Create Course,"As a formateur, I want to create a new course with title, description, content, speciality, and year, so that my students can access my teaching material.",High,5,Sprint 2,Dev B,"- Only formateurs and admins can access the create form
+- Form fields: title, description, content (textarea), speciality (dropdown), year, thumbnail (optional)
+- Validation: title and description required
+- On success, redirect to new course details
+- Success toast notification","- Create CreateCoursePage with form (2h)
+- Implement coursesService.create() with FormData (1h)
+- Add route guard for formateur role (0.5h)
+- Add success redirect and toast (0.5h)"
+EP-02,US-02.4,Edit Course,"As a formateur, I want to edit my existing course, so that I can keep it up to date.",Medium,5,Sprint 2,Dev B,"- Pre-populated form with current values
+- Only course owner or admin can access
+- On save, updated course is displayed","- Create EditCoursePage (reuse form component) (1.5h)
+- Implement coursesService.update() (0.5h)
+- Ownership check before rendering form (0.5h)"
+EP-02,US-02.5,Delete Course,"As a formateur, I want to delete a course I created, so that I can remove outdated content.",Medium,3,Sprint 2,Dev B,"- Confirmation modal before deletion
+- Only owner or admin can delete
+- On success, redirect to courses list
+- Course removed from Redux store","- Create confirmation modal component (1h)
+- Implement coursesService.delete() (0.5h)
+- Handle Redux state cleanup (0.5h)"
+EP-02,US-02.6,Filter Courses by Speciality & Year,"As a stagiaire, I want to filter courses by speciality and year, so that I see only relevant courses.",Medium,3,Sprint 2,Dev B,"- Dropdown filters for speciality and year
+- Filters trigger re-fetch
+- Reset button clears filters
+- Toggleable filter panel","- Add filter dropdowns to CoursesPage (1h)
+- Pass filter params to fetchCourses (0.5h)
+- Add reset button (0.5h)"
+EP-02,US-02.7,Course Thumbnail Upload,"As a formateur, I want to upload a thumbnail image for my course, so that it looks attractive in the listing.",Low,3,Sprint 3,Dev B,"- File picker accepts images only (JPG, PNG, WebP)
+- Preview shown before submission
+- Max file size: 5MB","- Create image upload component with preview (1.5h)
+- Integrate into create/edit course form (1h)"
+EP-03,US-03.1,View Resources List,"As a stagiaire, I want to see a list of available resources, so that I can find materials to study.",High,5,Sprint 1,Dev C,"- Resources displayed in list view with type icon, title, size, date
+- Pending validation badge for unvalidated resources
+- Loading and empty states
+- Download button per resource","- Create ResourcesPage UI (2h)
+- Create resourcesSlice and fetchResources thunk (1h)
+- Create resourcesService.getAll() (0.5h)
+- Add type icons mapping (PDF, video, document) (0.5h)"
+EP-03,US-03.2,Upload Resource,"As a formateur, I want to upload a PDF, video, or document, so that students can access it.",High,5,Sprint 2,Dev C,"- Only formateur or admin can upload
+- File picker with supported formats (PDF, MP4, DOCX, etc.)
+- Title auto-fills from filename
+- Upload progress indicator
+- Resource added to list after upload","- Create file upload UI with hidden input (1h)
+- Implement resourcesService.upload() with FormData (1h)
+- Add upload progress bar (1.5h)
+- Refresh list after successful upload (0.5h)"
+EP-03,US-03.3,Download Resource,"As a stagiaire, I want to download a resource file, so that I can study offline.",High,3,Sprint 2,Dev C,"- Click download triggers blob download
+- File saves with original filename
+- Loading state on download button","- Implement resourcesService.download() with responseType blob (1h)
+- Trigger browser download via object URL (1h)"
+EP-03,US-03.4,Filter Resources by Speciality / Year / Type,"As a stagiaire, I want to filter resources by speciality, year, and type, so that I find exactly what I need.",Medium,3,Sprint 2,Dev C,"- Three dropdown filters: speciality, year, type
+- Filters trigger re-fetch with params
+- Toggleable filter panel","- Add filter dropdowns to ResourcesPage (1h)
+- Pass filter params to API call (0.5h)
+- Toggle visibility of filter panel (0.5h)"
+EP-03,US-03.5,Delete Resource,"As a formateur, I want to delete a resource I uploaded, so that I can remove outdated files.",Low,2,Sprint 3,Dev C,"- Confirmation before deletion
+- Only uploader or admin can delete
+- Resource removed from list","- Add delete button (role-gated) (0.5h)
+- Confirmation modal + API call (1h)"
+EP-03,US-03.6,Link Resource to Course,"As a formateur, I want to attach resources to a specific course, so that students can find them in context.",Medium,3,Sprint 3,Dev C,"- Course selector dropdown during upload
+- Resources appear in course details page","- Add optional course selector to upload form (1h)
+- Display linked resources in CourseDetailsPage (1h)"
+EP-04,US-04.1,Rate a Course,"As a stagiaire, I want to rate a course from 1 to 5 stars, so that I can share my feedback.",Medium,5,Sprint 2,Dev B,"- Interactive star rating (1-5)
+- Optional comment field
+- User can only rate once per course
+- Submit button disabled until stars selected
+- Rating added to list immediately","- Create interactive StarRating component (1h)
+- Create CourseRatings component with form (2h)
+- Implement ratingsService.create() (0.5h)
+- Check if user already rated (hide form if yes) (0.5h)"
+EP-04,US-04.2,Display Average Rating,"As a stagiaire, I want to see the average rating on course cards and details, so that I can identify high-quality courses.",Medium,3,Sprint 2,Dev B,"- Star display + numeric average + total count on CourseCard
+- Same display on CourseDetailsPage
+- Updates after new rating submitted","- Add StarRating display to CourseCard (0.5h)
+- Add average display to CourseDetailsPage (0.5h)
+- Refresh average after new submission (0.5h)"
+EP-04,US-04.3,View All Reviews,"As a stagiaire, I want to read other students' reviews on a course, so that I can make an informed decision.",Medium,3,Sprint 3,Dev B,"- List of reviews with user avatar, name, date, stars, comment
+- Sorted by most recent
+- No reviews message if empty","- Create review list UI in CourseRatings (1h)
+- Implement ratingsService.getByCourse() (0.5h)"
+EP-04,US-04.4,Edit/Delete Own Rating,"As a stagiaire, I want to edit or delete my rating, so that I can update my feedback.",Low,2,Sprint 3,Dev B,"- Edit and delete buttons visible only on own review
+- Edit opens inline form with current values
+- Delete requires confirmation","- Add edit/delete buttons (owner only) (0.5h)
+- Implement edit inline mode (1h)
+- Implement delete with confirmation (0.5h)"
+EP-05,US-05.1,View Questions List,"As a user, I want to see a list of all questions, so that I can find help or help others.",High,5,Sprint 2,Dev D,"- Questions displayed with title, excerpt, author, date, vote count, answer count, tags
+- Sorted by most recent
+- Loading and empty states
+- Clickable → navigates to question detail","- Create ForumPage with questions list (2h)
+- Create forumSlice with fetchQuestions thunk (1h)
+- Create forumService.getAll() (0.5h)
+- Tags display with styled badges (0.5h)"
+EP-05,US-05.2,Ask a Question,"As a user, I want to post a new question with title, body, and tags, so that I can get help from the community.",High,5,Sprint 2,Dev D,"- Toggle Ask Question form
+- Fields: title (required), body/details (required), tags (comma-separated)
+- On submit, question appears in list
+- Form resets and closes after submission","- Create new question form UI (1.5h)
+- Implement forumService.createQuestion() (0.5h)
+- Refresh question list after submission (0.5h)
+- Form validation (title + body required) (0.5h)"
+EP-05,US-05.3,View Question Detail & Answers,"As a user, I want to view a question with its full details and all answers, so that I can read the discussion.",High,5,Sprint 2,Dev D,"- Full question body displayed
+- List of answers with author, date, body, vote count
+- Accepted answer highlighted
+- No answers yet empty state","- Create QuestionDetailPage (2h)
+- Create fetchQuestionById thunk (1h)
+- Display answer list with accepted badge (1h)"
+EP-05,US-05.4,Answer a Question,"As a user, I want to submit an answer to a question, so that I can help the community.",High,3,Sprint 2,Dev D,"- Textarea for answer body (required)
+- Submit button with loading state
+- New answer appears in list immediately","- Create answer form at bottom of question detail (1h)
+- Implement forumService.createAnswer() (0.5h)
+- Refresh answers after submission (0.5h)"
+EP-05,US-05.5,Vote on Questions and Answers,"As a user, I want to upvote or downvote questions and answers, so that the best content rises to the top.",Medium,5,Sprint 3,Dev D,"- Up/down vote buttons on questions and answers
+- Vote count updates immediately (optimistic UI)
+- User can change their vote
+- Cannot vote on own content","- Create vote button component (1h)
+- Implement forumService.voteQuestion() (0.5h)
+- Implement forumService.voteAnswer() (0.5h)
+- Optimistic UI update on vote (1h)"
+EP-05,US-05.6,Accept Answer,"As a question author, I want to mark an answer as accepted, so that others know the problem is solved.",Medium,3,Sprint 3,Dev D,"- Accept button visible only to question author
+- Only one answer can be accepted
+- Accepted answer gets green checkmark and moves to top","- Add accept button (author-gated) (0.5h)
+- Implement forumService.acceptAnswer() (0.5h)
+- Visual styling for accepted answer (0.5h)"
+EP-06,US-06.1,Global Search Bar,"As a user, I want a search bar in the Navbar, so that I can quickly find courses from anywhere.",Medium,3,Sprint 2,Dev C,"- Search input in Navbar (hidden on mobile)
+- Pressing Enter navigates to /search?q=query
+- Query pre-filled on SearchPage","- Add search input to Navbar (0.5h)
+- Navigate to search page with query param on Enter (0.5h)
+- Read query param in SearchPage and trigger search (0.5h)"
+EP-06,US-06.2,Search Results Page,"As a user, I want to see search results with filters, so that I can refine my search.",Medium,5,Sprint 2,Dev C,"- Search input with search button
+- Filters: speciality, year
+- Results displayed as CourseCard grid
+- Result count shown
+- Empty state for no results","- Create SearchPage UI with form (2h)
+- Create searchService.searchCourses() (0.5h)
+- Integrate speciality/year filter dropdowns (1h)
+- Display results using CourseCard (0.5h)"
+EP-06,US-06.3,Debounced Search Suggestions,"As a user, I want to see live suggestions as I type, so that I can find courses faster.",Low,5,Backlog,Dev C,"- Dropdown suggestions appear after 300ms debounce
+- Clicking a suggestion navigates to course",
+EP-07,US-07.1,Dashboard Statistics,"As an admin, I want to see platform statistics at a glance, so that I can monitor overall health.",High,5,Sprint 2,Dev D,"- Stat cards: total users, courses, resources, questions
+- Users by role breakdown
+- Recent activity feed
+- Pending resources alert","- Create AdminDashboard page (2h)
+- Create adminService.getStats() (0.5h)
+- Build stat cards with gradient icons (1h)
+- Build recent activity feed (1h)"
+EP-07,US-07.2,Manage Users,"As an admin, I want to view, edit, and delete user accounts, so that I can manage the user base.",High,8,Sprint 3,Dev D,"- Table of users with name, email, role, registration date
+- Search/filter users by role
+- Edit user role or details
+- Delete user with confirmation
+- Pagination for large user lists","- Create UsersManagementPage with data table (3h)
+- Implement adminService.getUsers() (0.5h)
+- Edit user modal with form (1.5h)
+- Delete user with confirmation modal (1h)
+- Role filter and search (1h)"
+EP-07,US-07.3,Validate Resources,"As an admin, I want to approve or reject uploaded resources, so that only quality content is available.",High,5,Sprint 3,Dev D,"- List of pending resources with file details
+- Approve and Reject buttons
+- Approved resources become visible to all users
+- Rejected resources are deleted with notification","- Create pending resources list UI (1.5h)
+- Implement adminService.validateResource() (0.5h)
+- Implement adminService.rejectResource() (0.5h)
+- Update pending count on dashboard (0.5h)"
+EP-07,US-07.4,View Platform Activity,"As an admin, I want to see recent activity logs, so that I can monitor platform usage.",Medium,5,Sprint 3,Dev D,"- Timeline of events: course created, resource uploaded, user registered, question asked
+- Each event shows description, user, timestamp
+- Sorted by most recent","- Create activity feed component (1.5h)
+- Fetch and display activity data from API (1h)"
+EP-07,US-07.5,View Platform Charts,"As an admin, I want to see visual charts of platform growth, so that I can track trends.",Low,3,Backlog,Dev D,,
+EP-08,US-08.1,View Profile,"As a user, I want to see my profile information, so that I can verify my details.",Medium,3,Sprint 2,Dev A,"- Avatar with initials
+- Display: name, email, role, speciality, year
+- Clean card layout","- Create ProfilePage with avatar and info cards (1.5h)
+- Display user data from Redux store (0.5h)"
+EP-08,US-08.2,Edit Profile,"As a user, I want to edit my name and email, so that I can keep my information current.",Medium,3,Sprint 2,Dev A,"- Toggle edit mode with Edit button
+- Editable fields: first name, last name, email
+- Save button calls API and updates Redux store
+- Loading state during save","- Add edit/save toggle mode (1h)
+- Implement authService.updateProfile() (0.5h)
+- Update Redux store after save (0.5h)"
+EP-08,US-08.3,Change Password,"As a user, I want to change my password, so that I can maintain security.",Medium,2,Sprint 3,Dev A,"- Fields: current password, new password, confirm new password
+- Validation: passwords match, min 6 chars
+- Success/error feedback","- Create change password form section (1h)
+- Implement change password API call (0.5h)"
+EP-08,US-08.4,Upload Avatar,"As a user, I want to upload a profile picture, so that others can identify me.",Low,2,Backlog,Dev A,,
+EP-09,US-09.1,Main Layout with Navbar & Sidebar,"As a user, I want a consistent navigation layout, so that I can easily navigate the platform.",High,5,Sprint 1,Dev A + Dev C,"- Fixed top Navbar with logo, search, notifications, user menu
+- Sidebar with navigation links
+- Sidebar links change based on user role
+- Mobile responsive: hamburger menu toggles sidebar
+- Active link highlighted","- Create Navbar component (2h)
+- Create Sidebar component with role-based links (2h)
+- Create MainLayout wrapper (0.5h)
+- Mobile responsive sidebar with overlay (1h)"
+EP-09,US-09.2,404 Not Found Page,"As a user, I want a friendly 404 page, so that I know when a page doesn't exist.",Low,1,Sprint 1,Dev A,"- Displays 404 with message
+- Link back to dashboard","- Create NotFoundPage (0.5h)"
+EP-09,US-09.3,Reusable UI Component Library,"As a developer, I want shared UI components (Button, Input, Card, etc.), so that the UI is consistent across the platform.",High,2,Sprint 1,Dev C,"- Button with variants: primary, secondary, danger, ghost + sizes + loading
+- Input with label, error, icon props
+- Card with optional hover effect
+- LoadingSpinner, EmptyState, StarRating components","- Create Button, Input, Card components (1.5h)
+- Create LoadingSpinner, EmptyState, StarRating (1h)"

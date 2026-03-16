@@ -27,10 +27,20 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-            localStorage.removeItem('cmc_token');
-            localStorage.removeItem('cmc_user');
-            window.location.href = '/login';
+            // Avoid redirect loop if already on login page
+            if (!window.location.pathname.includes('/login')) {
+                localStorage.removeItem('cmc_token');
+                localStorage.removeItem('cmc_user');
+                window.location.href = '/login';
+            }
         }
+
+        // Extract meaningful error message from API response
+        const serverMessage = error.response?.data?.message || error.response?.data?.error;
+        if (serverMessage) {
+            error.message = serverMessage;
+        }
+
         return Promise.reject(error);
     }
 );

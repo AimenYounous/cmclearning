@@ -52,20 +52,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
             {/* Sidebar */}
             <aside
-                className={`fixed top-0 left-0 z-50 h-full w-64 glass-strong border-r border-white/5 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:z-auto ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                className={`fixed top-0 left-0 z-50 h-full w-64 bg-surface-light border-r border-white/10 shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:z-auto ${isOpen ? 'translate-x-0' : '-translate-x-full'
                     }`}
             >
-                <div className="flex flex-col h-full p-4">
-                    {/* Mobile close */}
-                    <button
-                        onClick={onClose}
-                        className="lg:hidden self-end p-2 rounded-lg hover:bg-white/10 mb-4"
-                    >
-                        <HiOutlineX className="w-5 h-5" />
-                    </button>
+                <div className="flex flex-col h-full">
+                    {/* Header in sidebar for mobile */}
+                    <div className="h-16 flex items-center px-4 border-b border-white/5 lg:hidden">
+                        <button
+                            onClick={onClose}
+                            className="p-2 rounded-lg hover:bg-white/10"
+                        >
+                            <HiOutlineX className="w-5 h-5 text-text-muted" />
+                        </button>
+                    </div>
 
                     {/* Nav */}
-                    <nav className="flex-1 space-y-1">
+                    <nav className="flex-1 space-y-1 p-4 overflow-y-auto">
                         <p className="px-4 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider">
                             Navigation
                         </p>
