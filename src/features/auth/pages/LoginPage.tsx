@@ -6,6 +6,7 @@ import { AuthInput } from '../components/AuthInput';
 import { AuthButton } from '../components/AuthButton';
 import { FormCard } from '../components/FormCard';
 import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
+import '../styles/login.css';
 
 const LoginPage: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -35,24 +36,24 @@ const LoginPage: React.FC = () => {
             subtitle="Connectez-vous à CMC-Learning"
             error={error}
             footer={
-                <p className="text-text-secondary">
-                    Pas encore de compte ?{' '}
+                <p className="text-secondary fw-medium small mb-0">
+                    Nouveau sur CMC Learning ?{' '}
                     <Link
                         to="/register"
-                        className="text-white hover:text-primary-light font-semibold transition-colors duration-200"
+                        className="login-footer-link"
                     >
                         Créer un compte
                     </Link>
                 </p>
             }
         >
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-5">
+            <form onSubmit={handleSubmit} className="login-form-wrapper">
+                <div className="login-inputs-wrapper">
                     <AuthInput
                         label="Email"
                         type="email"
                         placeholder="votre@email.com"
-                        icon={<HiOutlineMail className="w-5 h-5" />}
+                        icon={<HiOutlineMail />}
                         value={form.email}
                         onChange={(e) => {
                             setForm({ ...form, email: e.target.value });
@@ -65,7 +66,7 @@ const LoginPage: React.FC = () => {
                         label="Mot de passe"
                         type="password"
                         placeholder="••••••••"
-                        icon={<HiOutlineLockClosed className="w-5 h-5" />}
+                        icon={<HiOutlineLockClosed />}
                         value={form.password}
                         onChange={(e) => setForm({ ...form, password: e.target.value })}
                         required

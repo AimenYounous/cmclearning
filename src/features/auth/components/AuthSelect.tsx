@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/auth-components.css';
 
 interface AuthSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
     label: string;
@@ -18,36 +19,33 @@ export const AuthSelect: React.FC<AuthSelectProps> = ({
     const selectId = id || label.toLowerCase().replace(/\s+/g, '-');
 
     return (
-        <div className="space-y-2 w-full">
-            <label htmlFor={selectId} className="block text-sm font-medium text-text-secondary">
+        <div className="auth-input-group">
+            <label htmlFor={selectId} className="auth-input-label">
                 {label}
             </label>
-            <div className="relative">
+            <div className="auth-input-wrapper group">
                 <select
                     id={selectId}
-                    className={`w-full px-4 py-3 rounded-xl bg-surface-card border text-sm text-text-primary focus:outline-none focus:ring-2 transition-all duration-200 cursor-pointer appearance-none ${error
-                            ? 'border-danger/50 focus:border-danger focus:ring-danger/20'
-                            : 'border-white/10 focus:border-primary/50 focus:bg-white/5 focus:ring-primary/20'
-                        } ${props.disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`auth-input-field auth-select ${error ? 'is-invalid' : ''} ${props.disabled ? 'disabled' : ''}`}
                     {...props}
                 >
-                    <option value="" disabled className="text-gray-500">
+                    <option value="" disabled className="text-secondary">
                         {placeholder}
                     </option>
                     {options.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-surface text-text-primary">
+                        <option key={opt.value} value={opt.value} className="bg-white text-dark">
                             {opt.label}
                         </option>
                     ))}
                 </select>
                 {/* Custom dropdown arrow */}
-                <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                    <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="position-absolute end-0 top-50 translate-middle-y pe-3 pointer-events-none d-flex align-items-center">
+                    <svg style={{ width: '1.25rem', height: '1.25rem', color: '#9ca3af' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </div>
             </div>
-            {error && <p className="text-xs text-danger font-medium mt-1">{error}</p>}
+            {error && <p className="auth-input-error-text">{error}</p>}
         </div>
     );
 };

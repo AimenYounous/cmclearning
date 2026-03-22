@@ -4,6 +4,7 @@ import { authService } from '@/features/auth/services/authService';
 import { Card, Button, Input } from '@/components/ui';
 import { getInitials } from '@/utils/helpers';
 import { HiOutlinePencil, HiOutlineCheck } from 'react-icons/hi';
+import '../styles/profile.css';
 
 const ProfilePage: React.FC = () => {
     const { user } = useAuth();
@@ -28,18 +29,18 @@ const ProfilePage: React.FC = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto space-y-6">
-            <h1 className="text-2xl font-bold">Mon Profil</h1>
+        <div className="profile-wrapper">
+            <h1 className="profile-title">Mon Profil</h1>
 
             {/* Avatar card */}
-            <Card className="text-center py-8">
-                <div className="w-24 h-24 rounded-full gradient-primary flex items-center justify-center text-3xl font-bold mx-auto mb-4 animate-pulse-glow">
+            <Card className="profile-avatar-card">
+                <div className="profile-avatar">
                     {getInitials(user.firstName, user.lastName)}
                 </div>
-                <h2 className="text-xl font-bold">{user.firstName} {user.lastName}</h2>
-                <p className="text-text-muted capitalize mt-1">{user.role}</p>
+                <h2 className="profile-name">{user.firstName} {user.lastName}</h2>
+                <p className="profile-role">{user.role}</p>
                 {user.speciality && (
-                    <p className="text-sm text-primary-light mt-2">
+                    <p className="profile-speciality">
                         {user.speciality} · {user.year}ère année
                     </p>
                 )}
@@ -47,12 +48,12 @@ const ProfilePage: React.FC = () => {
 
             {/* Info card */}
             <Card>
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-lg font-semibold">Informations personelles</h2>
+                <div className="profile-info-header">
+                    <h2 className="profile-info-title">Informations personelles</h2>
                     <Button
                         variant={editing ? 'primary' : 'secondary'}
                         size="sm"
-                        icon={editing ? <HiOutlineCheck className="w-4 h-4" /> : <HiOutlinePencil className="w-4 h-4" />}
+                        icon={editing ? <HiOutlineCheck /> : <HiOutlinePencil />}
                         isLoading={saving}
                         onClick={editing ? handleSave : () => setEditing(true)}
                     >
@@ -60,8 +61,8 @@ const ProfilePage: React.FC = () => {
                     </Button>
                 </div>
 
-                <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                <div className="profile-form-wrapper">
+                    <div className="profile-form-grid">
                         <Input
                             label="Prénom"
                             value={form.firstName}

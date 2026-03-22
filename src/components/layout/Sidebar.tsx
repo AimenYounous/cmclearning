@@ -10,6 +10,7 @@ import {
     HiOutlineChartBar,
     HiOutlineX,
 } from 'react-icons/hi';
+import './styles/layout.css';
 
 interface SidebarProps {
     isOpen: boolean;
@@ -35,40 +36,36 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const isFormateur = user?.role === 'formateur';
 
     const linkClasses = ({ isActive }: { isActive: boolean }) =>
-        `flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
-            ? 'bg-primary/20 text-primary-light border border-primary/30 shadow-lg shadow-primary/10'
-            : 'text-text-secondary hover:bg-white/5 hover:text-text-primary'
-        }`;
+        `nav-link-custom ${isActive ? 'active' : ''}`;
 
     return (
         <>
             {/* Mobile overlay */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                    className="sidebar-overlay d-lg-none"
                     onClick={onClose}
                 />
             )}
 
             {/* Sidebar */}
             <aside
-                className={`fixed top-0 left-0 z-50 h-full w-64 bg-surface-light border-r border-white/10 shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:z-auto ${isOpen ? 'translate-x-0' : '-translate-x-full'
-                    }`}
+                className={`sidebar-wrapper ${isOpen ? 'open' : ''}`}
             >
-                <div className="flex flex-col h-full">
+                <div className="d-flex flex-column h-100">
                     {/* Header in sidebar for mobile */}
-                    <div className="h-16 flex items-center px-4 border-b border-white/5 lg:hidden">
+                    <div className="d-lg-none d-flex align-items-center px-3 border-bottom" style={{ height: '4rem', borderColor: '#e5e7eb' }}>
                         <button
                             onClick={onClose}
-                            className="p-2 rounded-lg hover:bg-white/10"
+                            className="btn btn-light p-2 border-0"
                         >
-                            <HiOutlineX className="w-5 h-5 text-text-muted" />
+                            <HiOutlineX style={{ width: '1.25rem', height: '1.25rem', color: '#6b7280' }} />
                         </button>
                     </div>
 
                     {/* Nav */}
-                    <nav className="flex-1 space-y-1 p-4 overflow-y-auto">
-                        <p className="px-4 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider">
+                    <nav className="flex-grow-1 p-3 overflow-y-auto d-flex flex-column gap-1">
+                        <p className="nav-section-title">
                             Navigation
                         </p>
                         {navigationItems.map((item) => (
@@ -78,15 +75,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                 className={linkClasses}
                                 onClick={onClose}
                             >
-                                <item.icon className="w-5 h-5 flex-shrink-0" />
+                                <item.icon style={{ width: '1.25rem', height: '1.25rem' }} />
                                 {item.label}
                             </NavLink>
                         ))}
 
                         {(isAdmin || isFormateur) && (
                             <>
-                                <div className="my-4 border-t border-white/5" />
-                                <p className="px-4 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider">
+                                <hr className="my-3 text-muted opacity-25" />
+                                <p className="nav-section-title">
                                     {isAdmin ? 'Administration' : 'Formateur'}
                                 </p>
                                 {isAdmin &&
@@ -97,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                             className={linkClasses}
                                             onClick={onClose}
                                         >
-                                            <item.icon className="w-5 h-5 flex-shrink-0" />
+                                            <item.icon style={{ width: '1.25rem', height: '1.25rem' }} />
                                             {item.label}
                                         </NavLink>
                                     ))}
@@ -107,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                         className={linkClasses}
                                         onClick={onClose}
                                     >
-                                        <HiOutlineBookOpen className="w-5 h-5 flex-shrink-0" />
+                                        <HiOutlineBookOpen style={{ width: '1.25rem', height: '1.25rem' }} />
                                         Créer un cours
                                     </NavLink>
                                 )}
@@ -116,8 +113,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                     </nav>
 
                     {/* Footer */}
-                    <div className="mt-auto pt-4 border-t border-white/5">
-                        <p className="text-xs text-text-muted text-center">
+                    <div className="sidebar-footer">
+                        <p className="mb-0">
                             CMC-Learning © 2026
                         </p>
                     </div>

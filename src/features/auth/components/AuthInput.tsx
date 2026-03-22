@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
+import '../styles/auth-components.css';
 
 interface AuthInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string;
@@ -6,31 +8,42 @@ interface AuthInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     error?: string;
 }
 
-export const AuthInput: React.FC<AuthInputProps> = ({ label, icon, error, id, ...props }) => {
+export const AuthInput: React.FC<AuthInputProps> = ({ label, icon, error, id, type = 'text', ...props }) => {
     const inputId = id || label.toLowerCase().replace(/\s+/g, '-');
+    const [showPassword, setShowPassword] = useState(false);
+    const isPassword = type === 'password';
+    const inputType = isPassword && showPassword ? 'text' : type;
 
     return (
-        <div className="space-y-2 w-full">
-            <label htmlFor={inputId} className="block text-sm font-medium text-text-secondary">
+        <div className="auth-input-group">
+            <label htmlFor={inputId} className="auth-input-label">
                 {label}
             </label>
-            <div className="relative">
+            <div className="auth-input-wrapper group">
                 {icon && (
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted">
+                    <div className="auth-input-icon">
                         {icon}
                     </div>
                 )}
                 <input
                     id={inputId}
-                    className={`w-full ${icon ? 'pl-11' : 'pl-4'
-                        } pr-4 py-3 rounded-xl bg-surface-card border text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 transition-all duration-200 ${error
-                            ? 'border-danger/50 focus:border-danger focus:ring-danger/20'
-                            : 'border-white/10 focus:border-primary/50 focus:bg-white/5 focus:ring-primary/20'
-                        }`}
+                    type={inputType}
+                    className={`auth-input-field ${icon ? 'has-icon-left' : ''} ${isPassword ? 'has-icon-right' : ''} ${error ? 'is-invalid' : ''}`}
                     {...props}
                 />
+                {isPassword && (
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="auth-input-toggle-btn"
+                        tabIndex={-1}
+                        aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                    >
+                        {showPassword ? <HiOutlineEyeOff style={{ width: '1.25rem', height: '1.25rem' }} /> : <HiOutlineEye style={{ width: '1.25rem', height: '1.25rem' }} />}
+                    </button>
+                )}
             </div>
-            {error && <p className="text-xs text-danger font-medium mt-1">{error}</p>}
+            {error && <p className="auth-input-error-text">{error}</p>}
         </div>
     );
 };

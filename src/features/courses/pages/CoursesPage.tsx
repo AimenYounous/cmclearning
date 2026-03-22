@@ -7,6 +7,7 @@ import { SPECIALITIES, YEARS } from '@/utils/constants';
 import { HiOutlineBookOpen, HiOutlineFilter, HiOutlinePlus } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/hooks/useAuth';
+import '../styles/courses.css';
 
 const CoursesPage: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -28,16 +29,16 @@ const CoursesPage: React.FC = () => {
     }, [dispatch, filters]);
 
     return (
-        <div className="space-y-6">
+        <div className="courses-page-wrapper">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="courses-header">
                 <div>
-                    <h1 className="text-2xl font-bold">Cours</h1>
-                    <p className="text-text-muted text-sm mt-1">
+                    <h1 className="courses-title">Cours</h1>
+                    <p className="courses-subtitle">
                         Découvrez les cours disponibles sur la plateforme
                     </p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="courses-actions">
                     <Button
                         variant="secondary"
                         size="sm"
@@ -60,11 +61,11 @@ const CoursesPage: React.FC = () => {
 
             {/* Filters */}
             {showFilters && (
-                <div className="glass rounded-xl p-4 flex flex-wrap gap-4 animate-fade-in-up">
+                <div className="courses-filters-container">
                     <select
                         value={filters.speciality}
                         onChange={(e) => setFilters({ ...filters, speciality: e.target.value })}
-                        className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary focus:outline-none focus:border-primary/50"
+                        className="courses-filter-select"
                     >
                         <option value="">Toutes les spécialités</option>
                         {SPECIALITIES.map((s) => (
@@ -74,7 +75,7 @@ const CoursesPage: React.FC = () => {
                     <select
                         value={filters.year}
                         onChange={(e) => setFilters({ ...filters, year: e.target.value })}
-                        className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary focus:outline-none focus:border-primary/50"
+                        className="courses-filter-select"
                     >
                         <option value="">Toutes les années</option>
                         {YEARS.map((y) => (
@@ -102,7 +103,7 @@ const CoursesPage: React.FC = () => {
                 />
             ) : (
                 <>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="courses-grid">
                         {courses.map((course) => (
                             <CourseCard key={course.id} course={course} />
                         ))}
@@ -110,15 +111,12 @@ const CoursesPage: React.FC = () => {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="flex justify-center gap-2 mt-8">
+                        <div className="courses-pagination">
                             {Array.from({ length: totalPages }, (_, i) => (
                                 <button
                                     key={i + 1}
                                     onClick={() => dispatch(fetchCourses({ page: i + 1 }))}
-                                    className={`w-10 h-10 rounded-xl text-sm font-medium transition-all ${currentPage === i + 1
-                                            ? 'gradient-primary text-white'
-                                            : 'bg-white/5 text-text-muted hover:bg-white/10'
-                                        }`}
+                                    className={`courses-page-btn ${currentPage === i + 1 ? 'active' : ''}`}
                                 >
                                     {i + 1}
                                 </button>

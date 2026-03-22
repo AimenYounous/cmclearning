@@ -10,6 +10,7 @@ import { AuthSelect } from '../components/AuthSelect';
 import { HiOutlineMail, HiOutlineLockClosed, HiOutlineUser } from 'react-icons/hi';
 import { academicStructure } from '@/utils/academicStructure';
 import type { UserRole } from '@/types';
+import '../styles/register.css';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -213,23 +214,23 @@ const RegisterPage: React.FC = () => {
             subtitle="Rejoignez CMC-Learning"
             error={displayError}
             footer={
-                <p className="text-text-secondary">
+                <p className="text-secondary fw-medium small mb-0">
                     Déjà un compte ?{' '}
                     <Link
                         to="/login"
-                        className="text-white hover:text-primary-light font-semibold transition-colors duration-200"
+                        className="register-footer-link"
                     >
                         Se connecter
                     </Link>
                 </p>
             }
         >
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-2 gap-5">
+            <form onSubmit={handleSubmit} className="register-form-wrapper">
+                <div className="register-grid">
                     <AuthInput
                         label="Prénom"
                         placeholder="Ahmed"
-                        icon={<HiOutlineUser className="w-5 h-5" />}
+                        icon={<HiOutlineUser />}
                         value={form.firstName}
                         onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                         required
@@ -237,7 +238,7 @@ const RegisterPage: React.FC = () => {
                     <AuthInput
                         label="Nom"
                         placeholder="Bennani"
-                        icon={<HiOutlineUser className="w-5 h-5" />}
+                        icon={<HiOutlineUser />}
                         value={form.lastName}
                         onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                         required
@@ -248,7 +249,7 @@ const RegisterPage: React.FC = () => {
                     label="Email"
                     type="email"
                     placeholder="votre@email.com"
-                    icon={<HiOutlineMail className="w-5 h-5" />}
+                    icon={<HiOutlineMail />}
                     value={form.email}
                     onChange={(e) => {
                         setForm({ ...form, email: e.target.value });
@@ -260,7 +261,7 @@ const RegisterPage: React.FC = () => {
                 <RoleSelector selectedRole={form.role} onSelect={handleRoleChange} />
 
                 {form.role !== 'admin' && (
-                    <div className="space-y-5 bg-black/10 rounded-2xl p-4 border border-white/5">
+                    <div className="register-student-section">
                         {form.role === 'stagiaire' && (
                             <>
                                 <AuthSelect
@@ -312,12 +313,12 @@ const RegisterPage: React.FC = () => {
                     </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-5 pt-2">
+                <div className="register-grid pt-2">
                     <AuthInput
                         label="Mot de passe"
                         type="password"
                         placeholder="••••••••"
-                        icon={<HiOutlineLockClosed className="w-5 h-5" />}
+                        icon={<HiOutlineLockClosed />}
                         value={form.password}
                         onChange={(e) => setForm({ ...form, password: e.target.value })}
                         required
@@ -326,7 +327,7 @@ const RegisterPage: React.FC = () => {
                         label="Confirmer"
                         type="password"
                         placeholder="••••••••"
-                        icon={<HiOutlineLockClosed className="w-5 h-5" />}
+                        icon={<HiOutlineLockClosed />}
                         value={form.confirmPassword}
                         onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
                         required

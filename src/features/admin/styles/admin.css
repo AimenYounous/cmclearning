@@ -1,0 +1,273 @@
+.admin-dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.admin-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.25rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-title {
+        color: #f9fafb;
+    }
+}
+
+.admin-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-subtitle {
+        color: #9ca3af;
+    }
+}
+
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .admin-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .admin-stats-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.admin-stat-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-stat-card-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    opacity: 0.1;
+    transform: translate(1.5rem, -1.5rem);
+}
+
+.admin-stat-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin-stat-icon-wrapper {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.admin-stat-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: white;
+}
+
+.admin-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    line-height: 1.2;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-stat-value {
+        color: #f9fafb;
+    }
+}
+
+.admin-stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-stat-label {
+        color: #9ca3af;
+    }
+}
+
+.admin-alert-card {
+    border-color: #fde68a !important;
+    background-color: #fffbeb !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-alert-card {
+        border-color: #78350f !important;
+        background-color: #451a03 !important;
+    }
+}
+
+.admin-alert-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-alert-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #f59e0b;
+    flex-shrink: 0;
+}
+
+.admin-alert-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #b45309;
+    margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-alert-title {
+        color: #fcd34d;
+    }
+}
+
+.admin-alert-desc {
+    font-size: 0.875rem;
+    color: #d97706;
+    margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-alert-desc {
+        color: #fde68a;
+    }
+}
+
+.admin-section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-section-title {
+        color: #f9fafb;
+    }
+}
+
+.admin-roles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.admin-role-card {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background-color: #f9fafb;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-role-card {
+        background-color: #374151;
+    }
+}
+
+.admin-role-count {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.admin-role-name {
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-transform: capitalize;
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-role-name {
+        color: #9ca3af;
+    }
+}
+
+.admin-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.admin-activity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background-color: #f9fafb;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-activity-item {
+        background-color: #374151;
+    }
+}
+
+.admin-activity-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+.admin-activity-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-activity-desc {
+    font-size: 0.875rem;
+    color: #374151;
+    margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .admin-activity-desc {
+        color: #d1d5db;
+    }
+}
+
+.admin-activity-time {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 0.125rem;
+    margin-bottom: 0;
+}
+
+.admin-activity-empty {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    text-align: center;
+    padding: 1rem 0;
+}

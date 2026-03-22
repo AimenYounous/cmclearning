@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/ui-components.css';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
@@ -17,28 +18,25 @@ const Input: React.FC<InputProps> = ({
     const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
 
     return (
-        <div className="space-y-1.5 w-full">
+        <div className="input-ui-wrapper">
             {label && (
-                <label htmlFor={inputId} className="block text-sm font-medium text-text-secondary">
+                <label htmlFor={inputId} className="input-ui-label">
                     {label}
                 </label>
             )}
-            <div className="relative">
+            <div className="input-ui-container">
                 {icon && (
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted">
+                    <div className="input-ui-icon-wrapper">
                         {icon}
                     </div>
                 )}
                 <input
                     id={inputId}
-                    className={`w-full ${icon ? 'pl-11' : 'pl-4'} pr-4 py-3 rounded-xl bg-surface-card border text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 transition-all duration-200 ${error
-                        ? 'border-danger/50 focus:border-danger focus:ring-danger/20'
-                        : 'border-white/10 focus:border-primary/50 focus:bg-white/5 focus:ring-primary/20'
-                        } ${className}`}
+                    className={`input-ui ${icon ? 'input-ui-with-icon' : 'input-ui-no-icon'} ${error ? 'input-ui-error' : 'input-ui-default'} ${className}`}
                     {...props}
                 />
             </div>
-            {error && <p className="text-xs text-danger">{error}</p>}
+            {error && <p className="input-ui-error-text">{error}</p>}
         </div>
     );
 };

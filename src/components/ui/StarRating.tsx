@@ -28,7 +28,7 @@ const StarRating: React.FC<StarRatingProps> = ({
                     className={`${interactive ? 'cursor-pointer hover:scale-125' : 'cursor-default'} transition-transform`}
                 >
                     <HiStar
-                        className={`${sizes[size]} ${i < Math.round(rating) ? 'text-secondary fill-secondary' : 'text-white/15'
+                        className={`${sizes[size]} ${i < Math.round(rating) ? 'text-amber-400 fill-amber-400' : 'text-gray-200'
                             }`}
                     />
                 </button>
