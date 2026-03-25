@@ -4,3 +4,4 @@ export { default as Card } from './Card';
 export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as StarRating } from './StarRating';
 export { default as EmptyState } from './EmptyState';
+export { default as TabToggle } from './TabToggle';

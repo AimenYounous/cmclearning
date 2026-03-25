@@ -1,39 +1,82 @@
-import { useNavigate } from 'react-router-dom';
-import { Card, StarRating } from '@/components/ui';
-import { truncate } from '@/utils/helpers';
-import { HiOutlineBookOpen, HiOutlineUser } from 'react-icons/hi';
+import { HiOutlineStar, HiStar } from "react-icons/hi";
+
 const CourseCard = ({ course }) => {
-    const navigate = useNavigate();
-    return (<Card hover onClick={() => navigate(`/courses/${course.id}`)}>
-            {/* Thumbnail */}
-            <div className="relative h-40 -mx-6 -mt-6 mb-4 rounded-t-2xl overflow-hidden">
-                {course.thumbnail ? (<img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover"/>) : (<div className="w-full h-full gradient-accent flex items-center justify-center">
-                        <HiOutlineBookOpen className="w-12 h-12 text-white/40"/>
-                    </div>)}
-                <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/50 backdrop-blur text-xs font-medium">
-                    {course.speciality}
-                </div>
-            </div>
+  // Render star rating
+  const renderStars = (rating) => {
+    return (
+      <div className="flex gap-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <div key={star}>
+            {star <= Math.floor(rating) ? (
+              <HiStar className="w-4 h-4 text-yellow-400" />
+            ) : (
+              <HiOutlineStar className="w-4 h-4 text-slate-500" />
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
-            {/* Content */}
-            <h3 className="text-base font-semibold mb-2 line-clamp-2">{course.title}</h3>
-            <p className="text-sm text-text-muted mb-4 line-clamp-2">
-                {truncate(course.description, 100)}
-            </p>
+  return (
+    <div className="group bg-slate-800 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-slate-700 hover:border-indigo-500/50">
+      {/* Header with Icon Background */}
+      <div className="h-32 bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-pattern" />
+        </div>
+        <span className="text-6xl group-hover:scale-110 transition-transform duration-300 z-10">
+          {course.icon || "📚"}
+        </span>
+      </div>
 
-            {/* Footer */}
-            <div className="flex items-center justify-between pt-3 border-t border-white/5">
-                <div className="flex items-center gap-2 text-text-muted">
-                    <HiOutlineUser className="w-4 h-4"/>
-                    <span className="text-xs">
-                        {course.formateur.firstName} {course.formateur.lastName}
-                    </span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                    <StarRating rating={course.averageRating} size="sm"/>
-                    <span className="text-xs text-text-muted">({course.totalRatings})</span>
-                </div>
-            </div>
-        </Card>);
+      {/* Content */}
+      <div className="p-5 space-y-4">
+        {/* Category Badge */}
+        <div>
+          <span className="inline-block px-3 py-1 bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold rounded-full">
+            {course.category}
+          </span>
+        </div>
+
+        {/* Title */}
+        <div>
+          <h3 className="font-bold text-lg text-white line-clamp-2 group-hover:text-indigo-400 transition-colors">
+            {course.title}
+          </h3>
+        </div>
+
+        {/* Description */}
+        <p className="text-sm text-slate-400 line-clamp-2 leading-relaxed">
+          {course.description}
+        </p>
+
+        {/* Rating */}
+        <div className="flex items-center gap-2">
+          {renderStars(course.rating)}
+          <span className="text-xs text-slate-500">
+            {course.rating.toFixed(1)}
+          </span>
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-slate-700" />
+
+        {/* Author */}
+        <div className="flex items-center justify-between text-xs text-slate-400">
+          <span>
+            By{" "}
+            <span className="font-semibold text-slate-300">
+              {course.author}
+            </span>
+          </span>
+        </div>
+      </div>
+
+      {/* Hover Action */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+    </div>
+  );
 };
+
 export default CourseCard;
