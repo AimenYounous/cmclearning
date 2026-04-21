@@ -1,0 +1,225 @@
+.layout-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface);
+  overflow: hidden;
+}
+
+.layout-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.layout-main {
+  flex: 1;
+  overflow-y: auto;
+  background-color: rgba(249, 250, 251, 0.5); /* gray-50/50 */
+  padding: 1.5rem;
+  position: relative;
+}
+
+@media (min-width: 992px) {
+  .layout-main {
+    padding: 2rem;
+  }
+}
+
+.layout-content {
+  max-width: 80rem; /* max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Navbar Extracted Styles */
+.navbar-header {
+  background-color: white;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  z-index: 1040; /* Bootstrap sticky-top z-index */
+}
+
+.brand-logo {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.brand-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.navbar-brand-text {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 28rem;
+  margin: 0 2rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.625rem 1rem 0.625rem 2.5rem;
+  border-radius: 0.75rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  color: #111827;
+  transition: all 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  color: #9ca3af;
+}
+
+.notification-btn {
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #6b7280;
+  border: none;
+  background: transparent;
+  transition: background-color 0.2s;
+}
+
+.notification-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #ef4444;
+  border-radius: 50%;
+}
+
+.user-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+}
+
+.logout-btn {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #9ca3af;
+  border: none;
+  background: transparent;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+/* Sidebar Extracted Styles */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1040;
+}
+
+.sidebar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 16rem; /* w-64 */
+  background-color: white;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-wrapper.open {
+  transform: translateX(0);
+}
+
+@media (min-width: 992px) {
+  .sidebar-wrapper {
+    position: static;
+    transform: translateX(0);
+    z-index: auto;
+    box-shadow: none;
+  }
+}
+
+.nav-link-custom {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: #4b5563;
+  transition: all 0.2s;
+}
+
+.nav-link-custom:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.nav-link-custom.active {
+  background-color: rgba(79, 70, 229, 0.1);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.nav-section-title {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 1rem;
+  border-top: 1px solid #f3f4f6;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}

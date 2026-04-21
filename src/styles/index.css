@@ -1,26 +1,24 @@
-@import "tailwindcss";
-
-/* ===== CMC-Learning Design Tokens ===== */
-@theme {
-  --color-primary: #6366f1;
-  --color-primary-light: #818cf8;
-  --color-primary-dark: #4f46e5;
+/* ===== CMC-Learning Design Tokens — Light SaaS Theme ===== */
+:root {
+  --color-primary: #0ab8e8;
+  --color-primary-light: #38cdf2;
+  --color-primary-dark: #0898bf;
   --color-secondary: #f59e0b;
   --color-secondary-light: #fbbf24;
   --color-secondary-dark: #d97706;
-  --color-accent: #06b6d4;
+  --color-accent: #0ea5e9;
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
-  --color-surface: #1e1b4b;
-  --color-surface-light: #312e81;
-  --color-surface-card: #ffffff0d;
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #94a3b8;
-  --color-text-muted: #64748b;
-  --color-border: #334155;
-  --color-glass: #ffffff0a;
-  --color-glass-border: #ffffff1a;
+  --color-surface: #f8fafc;
+  --color-surface-light: #ffffff;
+  --color-surface-card: #ffffff;
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-glass: #ffffff;
+  --color-glass-border: #e2e8f0;
 }
 
 /* ===== Base Styles ===== */
@@ -36,7 +34,8 @@ html {
 
 body {
   font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: linear-gradient(135deg, #0f0a2e 0%, #1e1b4b 50%, #1a1440 100%);
+  background: linear-gradient(135deg, #f0f4ff 0%, #f8fafc 40%, #faf5ff 100%);
+  background-attachment: fixed;
   color: var(--color-text-primary);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -58,81 +57,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4f46e580;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6366f1;
-}
-
-/* ===== Glass Morphism Utilities ===== */
-.glass {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-strong {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-/* ===== Animation Utilities ===== */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out forwards;
-}
-
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* ===== Gradient Utilities ===== */
-.gradient-primary {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-}
-
-.gradient-accent {
-  background: linear-gradient(135deg, #06b6d4, #6366f1);
-}
-
-.gradient-warm {
-  background: linear-gradient(135deg, #f59e0b, #ef4444);
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #6366f1, #06b6d4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: #94a3b8;
 }

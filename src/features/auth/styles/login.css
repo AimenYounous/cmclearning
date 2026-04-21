@@ -1,0 +1,35 @@
+.login-page-container {
+    width: 100%;
+}
+
+.login-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.login-inputs-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.login-footer-link {
+    color: #068ac2;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.login-footer-link:hover {
+    color: #068ac2;
+}
+
+@media (prefers-color-scheme: dark) {
+    .login-footer-link {
+        color: #068ac2;
+    }
+    .login-footer-link:hover {
+        color: #068ac2;
+    }
+}

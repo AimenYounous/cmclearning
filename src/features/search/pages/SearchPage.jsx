@@ -5,7 +5,13 @@ import { CourseCard } from '@/features/courses';
 import { Input, LoadingSpinner, EmptyState } from '@/components/ui';
 import { SPECIALITIES, YEARS } from '@/utils/constants';
 import { HiOutlineSearch } from 'react-icons/hi';
+<<<<<<< HEAD:src/features/search/pages/SearchPage.jsx
 const SearchPage = () => {
+=======
+import '../styles/search.css';
+
+const SearchPage: React.FC = () => {
+>>>>>>> ayyoub:src/features/search/pages/SearchPage.tsx
     const [searchParams, setSearchParams] = useSearchParams();
     const [query, setQuery] = useState(searchParams.get('q') || '');
     const [speciality, setSpeciality] = useState('');
@@ -37,6 +43,7 @@ const SearchPage = () => {
         setSearchParams({ q: query });
         doSearch();
     };
+<<<<<<< HEAD:src/features/search/pages/SearchPage.jsx
     return (<div className="space-y-6">
             <h1 className="text-2xl font-bold">Recherche</h1>
 
@@ -47,17 +54,57 @@ const SearchPage = () => {
                         <Input placeholder="Rechercher des cours..." icon={<HiOutlineSearch className="w-4 h-4"/>} value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSearch()}/>
                     </div>
                     <button onClick={handleSearch} className="px-6 py-2.5 rounded-xl gradient-primary text-sm font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all">
+=======
+
+    return (
+        <div className="search-wrapper">
+            <h1 className="search-title">Recherche</h1>
+
+            {/* Search bar */}
+            <div className="search-bar-container">
+                <div className="search-bar-row">
+                    <div className="search-input-wrapper">
+                        <Input
+                            placeholder="Rechercher des cours..."
+                            icon={<HiOutlineSearch />}
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                        />
+                    </div>
+                    <button
+                        onClick={handleSearch}
+                        className="search-btn"
+                    >
+>>>>>>> ayyoub:src/features/search/pages/SearchPage.tsx
                         Rechercher
                     </button>
                 </div>
 
                 {/* Filters */}
+<<<<<<< HEAD:src/features/search/pages/SearchPage.jsx
                 <div className="flex flex-wrap gap-3 mt-4">
                     <select value={speciality} onChange={(e) => setSpeciality(e.target.value)} className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary focus:outline-none">
                         <option value="">Toutes spécialités</option>
                         {SPECIALITIES.map((s) => <option key={s} value={s}>{s}</option>)}
                     </select>
                     <select value={year} onChange={(e) => setYear(e.target.value)} className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary focus:outline-none">
+=======
+                <div className="search-filters-row">
+                    <select
+                        value={speciality}
+                        onChange={(e) => setSpeciality(e.target.value)}
+                        className="search-filter-select"
+                    >
+                        <option value="">Toutes spécialités</option>
+                        {SPECIALITIES.map((s) => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                    <select
+                        value={year}
+                        onChange={(e) => setYear(e.target.value)}
+                        className="search-filter-select"
+                    >
+>>>>>>> ayyoub:src/features/search/pages/SearchPage.tsx
                         <option value="">Toutes années</option>
                         {YEARS.map((y) => <option key={y} value={String(y)}>{y}ère année</option>)}
                     </select>
@@ -65,10 +112,22 @@ const SearchPage = () => {
             </div>
 
             {/* Results */}
+<<<<<<< HEAD:src/features/search/pages/SearchPage.jsx
             {loading ? (<LoadingSpinner text="Recherche en cours..."/>) : results.length > 0 ? (<div>
                     <p className="text-sm text-text-muted mb-4">{results.length} résultat(s) trouvé(s)</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {results.map((course) => (<CourseCard key={course.id} course={course}/>))}
+=======
+            {loading ? (
+                <LoadingSpinner text="Recherche en cours..." />
+            ) : results.length > 0 ? (
+                <div>
+                    <p className="search-results-info">{results.length} résultat(s) trouvé(s)</p>
+                    <div className="search-results-grid">
+                        {results.map((course) => (
+                            <CourseCard key={course.id} course={course} />
+                        ))}
+>>>>>>> ayyoub:src/features/search/pages/SearchPage.tsx
                     </div>
                 </div>) : query ? (<EmptyState icon={<HiOutlineSearch className="w-16 h-16"/>} title="Aucun résultat" description={`Aucun résultat pour "${query}". Essayez avec d'autres mots-clés.`}/>) : null}
         </div>);

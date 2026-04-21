@@ -1,0 +1,54 @@
+.register-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.register-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 639px) {
+    .register-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.register-student-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: rgba(249, 250, 251, 0.8);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    border: 1px solid rgba(243, 244, 246, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .register-student-section {
+        background-color: rgba(31, 41, 55, 0.4);
+        border-color: rgba(55, 65, 81, 0.5);
+    }
+}
+
+.register-footer-link {
+    color: #068ac2;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.register-footer-link:hover {
+    color: #068ac2;
+}
+
+@media (prefers-color-scheme: dark) {
+    .register-footer-link {
+        color: #068ac2;
+    }
+    .register-footer-link:hover {
+        color: #068ac2;
+    }
+}
